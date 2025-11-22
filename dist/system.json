@@ -12,13 +12,27 @@
     "minimum": "13.0.0",
     "verified": "13.0.0"
   },
-  "esmodules": ["rnk.js"],
-  "scripts": ["rnk.js"],
-  "styles": ["rnk.css"],
+  "esmodules": [
+    "rnk.js"
+  ],
+  "scripts": [
+    "rnk.js"
+  ],
+  "styles": [
+    "style.css"
+  ],
   "languages": [
-    {"lang": "en", "name": "English", "path": "lang/en.json"}
+    {
+      "lang": "en",
+      "name": "English",
+      "path": "lang/en.json"
+    }
   ],
   "packs": [],
-  "templates": ["templates/actor-sheet.hbs"],
-  "system": { "someKey": true }
+  "templates": [
+    "actor-sheet.hbs"
+  ],
+  "system": {
+    "someKey": true
+  }
 }
