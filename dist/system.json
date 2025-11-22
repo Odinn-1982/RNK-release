@@ -6,8 +6,8 @@
   "author": "Your Name",
   "license": "MIT",
   "url": "https://example.com",
-  "manifest": "https://example.com/systems/rnk/system.json",
-  "download": "https://example.com/systems/rnk.zip",
+  "manifest": "https://raw.githubusercontent.com/odinn-1982/RNK-release/main/dist/system.json",
+  "download": "https://raw.githubusercontent.com/odinn-1982/RNK-release/main/rnk.zip",
   "compatibility": {
     "minimum": "13.0.0",
     "verified": "13.0.0"
