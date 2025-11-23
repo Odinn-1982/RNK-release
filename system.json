@@ -1,0 +1,24 @@
+{
+  "name": "rnk",
+  "title": "RNK — Barebones System",
+  "description": "A minimal boilerplate Foundry V13 system",
+  "version": "0.0.1",
+  "author": "Your Name",
+  "license": "MIT",
+  "url": "https://github.com/Odinn-1982/RNK-release",
+  "manifest": "https://raw.githubusercontent.com/Odinn-1982/RNK-release/main/system.json",
+  "download": "https://github.com/Odinn-1982/RNK-release/raw/main/rnk.zip",
+  "compatibility": {
+    "minimum": "13.0.0",
+    "verified": "13.0.0"
+  },
+  "esmodules": ["rnk.js"],
+  "scripts": ["rnk.js"],
+  "styles": ["style.css"],
+  "languages": [
+    {"lang": "en", "name": "English", "path": "lang/en.json"}
+  ],
+  "packs": [],
+  "templates": ["templates/actor-sheet.hbs"],
+  "system": { "someKey": true }
+}
