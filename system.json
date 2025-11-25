@@ -2,16 +2,16 @@
   "id": "unhallowed-metropolis",
   "title": "Unhallowed Metropolis",
   "description": "A Foundry VTT system for Unhallowed Metropolis - a gas-mask chic roleplaying game set in a Neo-Victorian world overrun by the risen dead.",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "authors": [
     {
       "name": "Odinn"
     }
   ],
   "license": "MIT",
-  "url": "https://github.com/Odinn-1982/unhallowed-metropolis",
-  "manifest": "https://raw.githubusercontent.com/Odinn-1982/unhallowed-metropolis/main/system.json",
-  "download": "https://github.com/Odinn-1982/unhallowed-metropolis/raw/main/unhallowed-metropolis.zip",
+  "url": "https://github.com/Odinn-1982/RNK",
+  "manifest": "https://raw.githubusercontent.com/Odinn-1982/RNK-release/main/system.json",
+  "download": "https://github.com/Odinn-1982/RNK-release/raw/main/rnk.zip",
   "compatibility": {
     "minimum": "13.0.0",
     "verified": "13.0.0"
