@@ -1,0 +1,22 @@
+{{!-- Unhallowed Metropolis Standard Roll Chat Card --}}
+<div class="um-roll-card">
+  <h3>{{title}}</h3>
+  
+  <div class="roll-result {{resultClass}}">
+    <span class="total">{{total}}</span>
+    <span class="vs">vs TN {{targetNumber}}</span>
+    <span class="result-text">{{resultText}}</span>
+  </div>
+  
+  <div class="roll-details">
+    <span class="formula">{{formula}}</span>
+    <span class="dice">{{diceResults}}</span>
+  </div>
+  
+  {{#if degrees}}
+  <div class="degrees-section">
+    <span class="degrees-label">Degrees of {{#if success}}Success{{else}}Failure{{/if}}:</span>
+    <span class="degrees-value">{{degrees}}</span>
+  </div>
+  {{/if}}
+</div>

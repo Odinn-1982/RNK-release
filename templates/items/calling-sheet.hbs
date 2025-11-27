@@ -1,0 +1,57 @@
+{{!-- Unhallowed Metropolis Calling Sheet --}}
+<form class="um-item-sheet calling-sheet flexcol" autocomplete="off">
+  
+  <header class="sheet-header">
+    <div class="item-image">
+      <img src="{{item.img}}" alt="{{item.name}}" data-edit="img"/>
+    </div>
+    
+    <div class="header-fields">
+      <h1 class="item-name">
+        <input type="text" name="name" value="{{item.name}}" placeholder="Calling Name"/>
+      </h1>
+    </div>
+  </header>
+
+  <nav class="sheet-tabs tabs" data-group="primary">
+    <a class="item" data-tab="description">Description</a>
+    <a class="item" data-tab="details">Details</a>
+  </nav>
+
+  <section class="sheet-body">
+    
+    <div class="tab description" data-group="primary" data-tab="description">
+      <div class="editor-container">
+        <label>Description</label>
+        <textarea name="system.description">{{system.description}}</textarea>
+      </div>
+    </div>
+
+    <div class="tab details" data-group="primary" data-tab="details">
+      <div class="calling-details">
+        
+        <div class="form-group">
+          <label>Starting Wealth</label>
+          <input type="text" name="system.wealth" value="{{system.wealth}}" placeholder="e.g., Middle Class"/>
+        </div>
+        
+        <div class="form-group">
+          <label>Associated Skills</label>
+          <textarea name="system.skills" placeholder="List skills associated with this calling">{{system.skills}}</textarea>
+        </div>
+        
+        <div class="form-group">
+          <label>Recommended Qualities</label>
+          <textarea name="system.qualities" placeholder="List recommended qualities">{{system.qualities}}</textarea>
+        </div>
+        
+        <div class="form-group">
+          <label>Starting Equipment</label>
+          <textarea name="system.equipment" placeholder="List starting equipment">{{system.equipment}}</textarea>
+        </div>
+        
+      </div>
+    </div>
+    
+  </section>
+</form>

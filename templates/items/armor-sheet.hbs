@@ -1,0 +1,64 @@
+{{!-- Unhallowed Metropolis Armor Sheet --}}
+<form class="um-item-sheet armor-sheet flexcol" autocomplete="off">
+  
+  <header class="sheet-header">
+    <div class="item-image">
+      <img src="{{item.img}}" alt="{{item.name}}" data-edit="img"/>
+    </div>
+    
+    <div class="header-fields">
+      <h1 class="item-name">
+        <input type="text" name="name" value="{{item.name}}" placeholder="Armor Name"/>
+      </h1>
+    </div>
+  </header>
+
+  <nav class="sheet-tabs tabs" data-group="primary">
+    <a class="item" data-tab="description">Description</a>
+    <a class="item" data-tab="details">Details</a>
+  </nav>
+
+  <section class="sheet-body">
+    
+    <div class="tab description" data-group="primary" data-tab="description">
+      <div class="editor-container">
+        <label>Description</label>
+        <textarea name="system.description">{{system.description}}</textarea>
+      </div>
+    </div>
+
+    <div class="tab details" data-group="primary" data-tab="details">
+      <div class="armor-details">
+        
+        <div class="form-group">
+          <label>Protection Rating</label>
+          <input type="number" name="system.protection" value="{{system.protection}}" data-dtype="Number" min="0"/>
+        </div>
+        
+        <div class="form-group">
+          <label>Penalty</label>
+          <input type="number" name="system.penalty" value="{{system.penalty}}" data-dtype="Number" min="0"/>
+        </div>
+        
+        <div class="form-group coverage">
+          <label>Coverage</label>
+          <div class="coverage-checkboxes">
+            {{#each config.hitLocations as |loc key|}}
+              <label class="checkbox-label">
+                <input type="checkbox" name="system.coverage.{{key}}" {{#if (lookup ../system.coverage key)}}checked{{/if}}/>
+                {{localize loc.label}}
+              </label>
+            {{/each}}
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label>Equipped</label>
+          <input type="checkbox" name="system.equipped" {{#if system.equipped}}checked{{/if}}/>
+        </div>
+        
+      </div>
+    </div>
+    
+  </section>
+</form>

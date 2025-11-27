@@ -1,0 +1,33 @@
+{{!-- Unhallowed Metropolis Disorder Sheet --}}
+<form class="um-item-sheet disorder-sheet flexcol" autocomplete="off">
+  
+  <header class="sheet-header">
+    <div class="item-image">
+      <img src="{{item.img}}" alt="{{item.name}}" data-edit="img"/>
+    </div>
+    
+    <div class="header-fields">
+      <h1 class="item-name">
+        <input type="text" name="name" value="{{item.name}}" placeholder="Disorder Name"/>
+      </h1>
+    </div>
+  </header>
+
+  <section class="sheet-body">
+    
+    <div class="disorder-details">
+      
+      <div class="form-group">
+        <label>Trigger</label>
+        <input type="text" name="system.trigger" value="{{system.trigger}}" placeholder="What triggers this disorder?"/>
+      </div>
+      
+      <div class="editor-container">
+        <label>Description / Effects</label>
+        <textarea name="system.description">{{system.description}}</textarea>
+      </div>
+      
+    </div>
+    
+  </section>
+</form>

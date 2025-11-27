@@ -1,0 +1,487 @@
+{{!-- Unhallowed Metropolis Character Sheet --}}
+<form class="um-character-sheet flexcol" autocomplete="off">
+  
+  {{!-- Header Section --}}
+  <header class="sheet-header">
+    <div class="profile-section">
+      <img class="profile-img" src="{{actor.img}}" alt="{{actor.name}}" data-edit="img"/>
+    </div>
+    
+    <div class="header-fields">
+      <h1 class="charname">
+        <input type="text" name="name" value="{{actor.name}}" placeholder="Character Name"/>
+      </h1>
+      
+      <div class="header-row">
+        <div class="field">
+          <label>{{localize "UM.Calling"}}</label>
+          <select name="system.details.calling">
+            <option value="">—</option>
+            {{#each config.callings as |label key|}}
+              <option value="{{key}}" {{#if (eq ../system.details.calling key)}}selected{{/if}}>
+                {{localize label}}
+              </option>
+            {{/each}}
+          </select>
+        </div>
+        
+        <div class="field">
+          <label>{{localize "UM.SocialClass.Label"}}</label>
+          <select name="system.details.socialClass">
+            <option value="">—</option>
+            {{#each config.socialClasses as |label key|}}
+              <option value="{{key}}" {{#if (eq ../system.details.socialClass key)}}selected{{/if}}>
+                {{localize label}}
+              </option>
+            {{/each}}
+          </select>
+        </div>
+      </div>
+    </div>
+    
+    {{!-- Vital Statistics --}}
+    <div class="vital-stats">
+      <div class="health-section">
+        <label>{{localize "UM.Derived.Health"}}</label>
+        <div class="health-bar" title="Click to adjust">
+          <div class="health-fill" style="width: {{healthPercent}}%"></div>
+          <span class="health-value">{{system.derived.health.value}} / {{system.derived.health.max}}</span>
+        </div>
+      </div>
+      
+      <div class="mental-section">
+        <label>{{localize "UM.Derived.MentalHealth"}}</label>
+        <div class="mental-bar" title="Click to adjust">
+          <div class="mental-fill" style="width: {{mentalPercent}}%"></div>
+          <span class="mental-value">{{system.derived.mentalHealth.value}} / {{system.derived.mentalHealth.max}}</span>
+        </div>
+      </div>
+      
+      <div class="derived-row">
+        <div class="derived-stat">
+          <label>{{localize "UM.Derived.Initiative"}}</label>
+          <span class="derived-value">{{system.derived.initiative}}</span>
+        </div>
+        <div class="derived-stat">
+          <label>{{localize "UM.Derived.Actions"}}</label>
+          <span class="derived-value">{{system.derived.actions}}</span>
+        </div>
+        <div class="derived-stat">
+          <label>{{localize "UM.Derived.Movement"}}</label>
+          <span class="derived-value">{{system.derived.movement}}</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  {{!-- Navigation Tabs --}}
+  <nav class="sheet-tabs tabs" data-group="primary">
+    <a class="item" data-tab="attributes">{{localize "UM.Tabs.Attributes"}}</a>
+    <a class="item" data-tab="skills">{{localize "UM.Tabs.Skills"}}</a>
+    <a class="item" data-tab="powers">{{localize "UM.Tabs.Powers"}}</a>
+    <a class="item" data-tab="combat">{{localize "UM.Tabs.Combat"}}</a>
+    <a class="item" data-tab="inventory">{{localize "UM.Tabs.Inventory"}}</a>
+    <a class="item" data-tab="corruption">{{localize "UM.Tabs.Corruption"}}</a>
+    <a class="item" data-tab="biography">{{localize "UM.Tabs.Biography"}}</a>
+  </nav>
+
+  {{!-- Sheet Body --}}
+  <section class="sheet-body">
+    
+    {{!-- Attributes Tab --}}
+    <div class="tab attributes" data-group="primary" data-tab="attributes">
+      <div class="attributes-grid">
+        {{#each attributes as |attr|}}
+          <div class="attribute-row" data-attribute="{{attr.key}}">
+            <div class="attribute-label">
+              <span class="attribute-name">{{attr.label}}</span>
+              <span class="attribute-abbr">({{attr.abbr}})</span>
+            </div>
+            
+            <div class="attribute-dots">
+              {{#times 5}}
+                <span class="attribute-dot {{#if (gt ../attr.value index)}}filled{{else}}empty{{/if}}" 
+                      data-value="{{add index 1}}"></span>
+              {{/times}}
+            </div>
+            
+            <div class="attribute-modifier">
+              <input type="number" name="system.attributes.{{attr.key}}.modifier" 
+                     value="{{attr.modifier}}" data-dtype="Number" placeholder="+0"/>
+            </div>
+            
+            <button type="button" class="attribute-roll" data-attribute="{{attr.key}}" title="Roll {{attr.label}}">
+              <i class="fas fa-dice-d20"></i>
+            </button>
+          </div>
+        {{/each}}
+      </div>
+    </div>
+
+    {{!-- Skills Tab --}}
+    <div class="tab skills" data-group="primary" data-tab="skills">
+      <div class="skills-columns">
+        {{#each skillsByAttribute as |skills attrKey|}}
+          <div class="skills-column" data-attribute="{{attrKey}}">
+            <h3 class="column-header">{{localize (lookup ../config.attributes attrKey)}}</h3>
+            
+            {{#each skills as |skill|}}
+              <div class="skill-row" data-skill="{{skill.key}}">
+                <span class="skill-name">{{skill.label}}</span>
+                
+                <div class="skill-dots">
+                  {{#times 5}}
+                    <span class="skill-dot {{#if (gt ../skill.value index)}}filled{{else}}empty{{/if}}" 
+                          data-value="{{add index 1}}"></span>
+                  {{/times}}
+                </div>
+                
+                <button type="button" class="skill-roll" data-skill="{{skill.key}}" title="Roll {{skill.label}}">
+                  <i class="fas fa-dice-d20"></i>
+                </button>
+              </div>
+            {{/each}}
+          </div>
+        {{/each}}
+      </div>
+    </div>
+
+    {{!-- Powers Tab --}}
+    <div class="tab powers" data-group="primary" data-tab="powers">
+      {{!-- Psychic Powers Section --}}
+      <div class="powers-section psychic-powers">
+        <h3><i class="fas fa-brain"></i> Psychic Powers</h3>
+        <div class="items-list powers-list">
+          {{#each items.psychicPowers as |power|}}
+            <div class="item power" data-item-id="{{power._id}}">
+              <div class="item-image">
+                <img src="{{power.img}}" alt="{{power.name}}"/>
+              </div>
+              <div class="item-details">
+                <div class="item-name">{{power.name}}</div>
+                <div class="power-meta">
+                  {{#if power.system.discipline}}
+                    <span class="power-discipline">{{power.system.discipline}}</span>
+                  {{/if}}
+                  {{#if power.system.cost}}
+                    <span class="power-cost">Cost: {{power.system.cost}}</span>
+                  {{/if}}
+                </div>
+              </div>
+              <div class="item-controls">
+                <a class="item-roll power-activate" title="Activate Power"><i class="fas fa-bolt"></i></a>
+                <a class="item-edit" title="Edit"><i class="fas fa-edit"></i></a>
+                <a class="item-delete" title="Delete"><i class="fas fa-trash"></i></a>
+              </div>
+            </div>
+          {{/each}}
+          <div class="item-create" data-type="psychicPower">
+            <a><i class="fas fa-plus"></i> Add Psychic Power</a>
+          </div>
+        </div>
+      </div>
+
+      {{!-- Talents Section --}}
+      <div class="powers-section talents">
+        <h3><i class="fas fa-star"></i> Talents</h3>
+        <div class="items-list talents-list">
+          {{#each items.talents as |talent|}}
+            <div class="item talent" data-item-id="{{talent._id}}">
+              <div class="item-image">
+                <img src="{{talent.img}}" alt="{{talent.name}}"/>
+              </div>
+              <div class="item-details">
+                <div class="item-name">{{talent.name}}</div>
+                {{#if talent.system.description}}
+                  <div class="item-description">{{talent.system.description}}</div>
+                {{/if}}
+              </div>
+              <div class="item-controls">
+                <a class="item-edit" title="Edit"><i class="fas fa-edit"></i></a>
+                <a class="item-delete" title="Delete"><i class="fas fa-trash"></i></a>
+              </div>
+            </div>
+          {{/each}}
+          <div class="item-create" data-type="talent">
+            <a><i class="fas fa-plus"></i> Add Talent</a>
+          </div>
+        </div>
+      </div>
+
+      {{!-- Qualities Section --}}
+      <div class="powers-section qualities">
+        <h3><i class="fas fa-gem"></i> Qualities</h3>
+        <div class="items-list qualities-list">
+          {{#each items.qualities as |quality|}}
+            <div class="item quality" data-item-id="{{quality._id}}">
+              <div class="item-image">
+                <img src="{{quality.img}}" alt="{{quality.name}}"/>
+              </div>
+              <div class="item-details">
+                <div class="item-name">{{quality.name}}</div>
+                {{#if quality.system.description}}
+                  <div class="item-description">{{quality.system.description}}</div>
+                {{/if}}
+              </div>
+              <div class="item-controls">
+                <a class="item-edit" title="Edit"><i class="fas fa-edit"></i></a>
+                <a class="item-delete" title="Delete"><i class="fas fa-trash"></i></a>
+              </div>
+            </div>
+          {{/each}}
+          <div class="item-create" data-type="quality">
+            <a><i class="fas fa-plus"></i> Add Quality</a>
+          </div>
+        </div>
+      </div>
+
+      {{!-- Callings Section --}}
+      <div class="powers-section callings">
+        <h3><i class="fas fa-scroll"></i> Callings</h3>
+        <div class="items-list callings-list">
+          {{#each items.callings as |calling|}}
+            <div class="item calling" data-item-id="{{calling._id}}">
+              <div class="item-image">
+                <img src="{{calling.img}}" alt="{{calling.name}}"/>
+              </div>
+              <div class="item-details">
+                <div class="item-name">{{calling.name}}</div>
+                {{#if calling.system.description}}
+                  <div class="item-description">{{calling.system.description}}</div>
+                {{/if}}
+              </div>
+              <div class="item-controls">
+                <a class="item-edit" title="Edit"><i class="fas fa-edit"></i></a>
+                <a class="item-delete" title="Delete"><i class="fas fa-trash"></i></a>
+              </div>
+            </div>
+          {{/each}}
+          <div class="item-create" data-type="calling">
+            <a><i class="fas fa-plus"></i> Add Calling</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {{!-- Combat Tab --}}
+    <div class="tab combat" data-group="primary" data-tab="combat">
+      <div class="combat-section">
+        <h3>{{localize "UM.Combat.Weapons"}}</h3>
+        <div class="items-list weapons-list">
+          {{#each items.weapons as |weapon|}}
+            <div class="item weapon" data-item-id="{{weapon._id}}">
+              <div class="item-image">
+                <img src="{{weapon.img}}" alt="{{weapon.name}}"/>
+              </div>
+              <div class="item-name">{{weapon.name}}</div>
+              <div class="item-damage">{{weapon.system.damage}}</div>
+              <div class="item-controls">
+                <a class="item-roll" title="Attack"><i class="fas fa-dice-d20"></i></a>
+                <a class="item-edit" title="Edit"><i class="fas fa-edit"></i></a>
+                <a class="item-delete" title="Delete"><i class="fas fa-trash"></i></a>
+              </div>
+            </div>
+          {{/each}}
+          <div class="item-create" data-type="weapon">
+            <a><i class="fas fa-plus"></i> {{localize "UM.Item.AddWeapon"}}</a>
+          </div>
+        </div>
+        
+        <h3>{{localize "UM.Combat.Armor"}}</h3>
+        <div class="items-list armor-list">
+          {{#each items.armor as |armor|}}
+            <div class="item armor" data-item-id="{{armor._id}}">
+              <div class="item-image">
+                <img src="{{armor.img}}" alt="{{armor.name}}"/>
+              </div>
+              <div class="item-name">{{armor.name}}</div>
+              <div class="item-protection">{{armor.system.protection}}</div>
+              <div class="item-controls">
+                <a class="item-edit" title="Edit"><i class="fas fa-edit"></i></a>
+                <a class="item-delete" title="Delete"><i class="fas fa-trash"></i></a>
+              </div>
+            </div>
+          {{/each}}
+          <div class="item-create" data-type="armor">
+            <a><i class="fas fa-plus"></i> {{localize "UM.Item.AddArmor"}}</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {{!-- Inventory Tab --}}
+    <div class="tab inventory" data-group="primary" data-tab="inventory">
+      <div class="currency-section">
+        <h3>{{localize "UM.Currency.Title"}}</h3>
+        <div class="currency-fields">
+          <div class="currency-field">
+            <label>{{localize "UM.Currency.Pounds"}}</label>
+            <input type="number" name="system.currency.pounds" value="{{system.currency.pounds}}" data-dtype="Number"/>
+            <span class="currency-symbol">£</span>
+          </div>
+          <div class="currency-field">
+            <label>{{localize "UM.Currency.Shillings"}}</label>
+            <input type="number" name="system.currency.shillings" value="{{system.currency.shillings}}" data-dtype="Number"/>
+            <span class="currency-symbol">s</span>
+          </div>
+          <div class="currency-field">
+            <label>{{localize "UM.Currency.Pence"}}</label>
+            <input type="number" name="system.currency.pence" value="{{system.currency.pence}}" data-dtype="Number"/>
+            <span class="currency-symbol">d</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="equipment-section">
+        <h3>{{localize "UM.Equipment.Title"}}</h3>
+        <div class="items-list equipment-list">
+          {{#each items.equipment as |item|}}
+            <div class="item equipment" data-item-id="{{item._id}}">
+              <div class="item-image">
+                <img src="{{item.img}}" alt="{{item.name}}"/>
+              </div>
+              <div class="item-name">{{item.name}}</div>
+              <div class="item-quantity">
+                <input type="number" value="{{item.system.quantity}}" data-dtype="Number" min="0"/>
+              </div>
+              <div class="item-controls">
+                <a class="item-edit" title="Edit"><i class="fas fa-edit"></i></a>
+                <a class="item-delete" title="Delete"><i class="fas fa-trash"></i></a>
+              </div>
+            </div>
+          {{/each}}
+          <div class="item-create" data-type="equipment">
+            <a><i class="fas fa-plus"></i> {{localize "UM.Item.AddEquipment"}}</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {{!-- Corruption Tab --}}
+    <div class="tab corruption" data-group="primary" data-tab="corruption">
+      <div class="corruption-section">
+        <div class="corruption-track-container">
+          <h3>{{localize "UM.Corruption.Physical"}}</h3>
+          <div class="corruption-track" data-type="physical">
+            <div class="corruption-pips">
+              {{#times system.corruption.physical.threshold}}
+                <span class="corruption-pip {{#if (gt ../system.corruption.physical.value index)}}filled{{else}}empty{{/if}}" 
+                      data-index="{{index}}"></span>
+              {{/times}}
+            </div>
+            <span class="corruption-value">{{system.corruption.physical.value}} / {{system.corruption.physical.threshold}}</span>
+          </div>
+          
+          <h3>{{localize "UM.Corruption.Mental"}}</h3>
+          <div class="corruption-track" data-type="mental">
+            <div class="corruption-pips">
+              {{#times system.corruption.mental.threshold}}
+                <span class="corruption-pip {{#if (gt ../system.corruption.mental.value index)}}filled{{else}}empty{{/if}}" 
+                      data-index="{{index}}"></span>
+              {{/times}}
+            </div>
+            <span class="corruption-value">{{system.corruption.mental.value}} / {{system.corruption.mental.threshold}}</span>
+          </div>
+        </div>
+        
+        <div class="drive-desire">
+          <div class="field">
+            <label>{{localize "UM.Corruption.Desire"}}</label>
+            <input type="text" name="system.corruption.desire" value="{{system.corruption.desire}}" 
+                   placeholder="{{localize 'UM.Corruption.DesirePlaceholder'}}"/>
+          </div>
+          <div class="field">
+            <label>{{localize "UM.Corruption.Drive"}}</label>
+            <input type="text" name="system.corruption.drive" value="{{system.corruption.drive}}"
+                   placeholder="{{localize 'UM.Corruption.DrivePlaceholder'}}"/>
+          </div>
+        </div>
+        
+        <div class="afflictions-section">
+          <h3>{{localize "UM.Afflictions.Title"}}</h3>
+          <div class="items-list afflictions-list">
+            {{#each items.afflictions as |affliction|}}
+              <div class="item affliction" data-item-id="{{affliction._id}}">
+                <div class="item-name">{{affliction.name}}</div>
+                <div class="item-severity">{{affliction.system.severity}}</div>
+                <div class="item-controls">
+                  <a class="item-edit" title="Edit"><i class="fas fa-edit"></i></a>
+                  <a class="item-delete" title="Delete"><i class="fas fa-trash"></i></a>
+                </div>
+              </div>
+            {{/each}}
+            <div class="item-create" data-type="affliction">
+              <a><i class="fas fa-plus"></i> {{localize "UM.Item.AddAffliction"}}</a>
+            </div>
+          </div>
+        </div>
+        
+        <div class="disorders-section">
+          <h3>{{localize "UM.Disorders.Title"}}</h3>
+          <div class="items-list disorders-list">
+            {{#each items.disorders as |disorder|}}
+              <div class="item disorder" data-item-id="{{disorder._id}}">
+                <div class="item-name">{{disorder.name}}</div>
+                <div class="item-controls">
+                  <a class="item-edit" title="Edit"><i class="fas fa-edit"></i></a>
+                  <a class="item-delete" title="Delete"><i class="fas fa-trash"></i></a>
+                </div>
+              </div>
+            {{/each}}
+            <div class="item-create" data-type="disorder">
+              <a><i class="fas fa-plus"></i> {{localize "UM.Item.AddDisorder"}}</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {{!-- Biography Tab --}}
+    <div class="tab biography" data-group="primary" data-tab="biography">
+      <div class="biography-section">
+        <div class="bio-fields">
+          <div class="bio-row">
+            <div class="field">
+              <label>{{localize "UM.Bio.Age"}}</label>
+              <input type="number" name="system.details.age" value="{{system.details.age}}" data-dtype="Number"/>
+            </div>
+            <div class="field">
+              <label>{{localize "UM.Bio.Gender"}}</label>
+              <input type="text" name="system.details.gender" value="{{system.details.gender}}"/>
+            </div>
+            <div class="field">
+              <label>{{localize "UM.Bio.Birthplace"}}</label>
+              <input type="text" name="system.details.birthplace" value="{{system.details.birthplace}}"/>
+            </div>
+          </div>
+          <div class="bio-row">
+            <div class="field">
+              <label>{{localize "UM.Bio.Height"}}</label>
+              <input type="text" name="system.details.height" value="{{system.details.height}}"/>
+            </div>
+            <div class="field">
+              <label>{{localize "UM.Bio.Weight"}}</label>
+              <input type="text" name="system.details.weight" value="{{system.details.weight}}"/>
+            </div>
+          </div>
+        </div>
+        
+        <div class="field appearance">
+          <label>{{localize "UM.Bio.Appearance"}}</label>
+          <textarea name="system.details.appearance">{{system.details.appearance}}</textarea>
+        </div>
+        
+        <div class="field background">
+          <label>{{localize "UM.Bio.Background"}}</label>
+          <textarea name="system.details.background" class="large-textarea">{{system.details.background}}</textarea>
+        </div>
+        
+        <div class="field notes">
+          <label>{{localize "UM.Bio.Notes"}}</label>
+          <textarea name="system.details.notes" class="large-textarea">{{system.details.notes}}</textarea>
+        </div>
+      </div>
+    </div>
+    
+  </section>
+</form>

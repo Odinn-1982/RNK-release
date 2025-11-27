@@ -1,0 +1,266 @@
+<div class="gm-hub-container">
+  {{!-- Tab Navigation --}}
+  <nav class="hub-tabs">
+    <a class="tab" data-tab="encounter"><i class="fas fa-swords"></i> Encounter</a>
+    <a class="tab" data-tab="npcs"><i class="fas fa-users"></i> NPCs</a>
+    <a class="tab" data-tab="corruption"><i class="fas fa-biohazard"></i> Corruption</a>
+    <a class="tab" data-tab="reference"><i class="fas fa-book"></i> Reference</a>
+    <a class="tab" data-tab="notes"><i class="fas fa-sticky-note"></i> Notes</a>
+  </nav>
+
+  <div class="hub-content">
+    {{!-- ═══════════════════════════════════════════════════════════════════════════ --}}
+    {{!-- ENCOUNTER TAB --}}
+    {{!-- ═══════════════════════════════════════════════════════════════════════════ --}}
+    <section class="tab-content" data-tab="encounter">
+      <div class="encounter-controls">
+        {{#if encounter}}
+          <div class="encounter-status">
+            <span class="round-indicator"><i class="fas fa-hourglass-half"></i> Round {{encounter.round}}</span>
+            <button type="button" class="next-round"><i class="fas fa-forward"></i> Next Round</button>
+            <button type="button" class="end-encounter danger"><i class="fas fa-flag-checkered"></i> End</button>
+          </div>
+        {{else}}
+          <button type="button" class="start-encounter"><i class="fas fa-play"></i> Start Encounter</button>
+        {{/if}}
+        <button type="button" class="roll-group-initiative"><i class="fas fa-sort-numeric-down"></i> Roll Initiative</button>
+      </div>
+
+      <div class="npc-tracker" data-drop-zone="true">
+        <h3><i class="fas fa-skull"></i> Active Combatants</h3>
+        {{#if trackedNPCs.length}}
+          <div class="tracked-npc-list">
+            {{#each trackedNPCs}}
+              <div class="tracked-npc" data-actor-id="{{id}}">
+                <div class="npc-portrait">
+                  <img src="{{img}}" alt="{{name}}" />
+                </div>
+                <div class="npc-info">
+                  <h4 class="npc-name">{{name}}</h4>
+                  <div class="npc-health">
+                    <div class="health-bar-container">
+                      <div class="health-bar" style="width: {{healthPercent}}%"></div>
+                      <span class="health-text">{{currentHealth}} / {{maxHealth}}</span>
+                    </div>
+                  </div>
+                  <div class="npc-actions">
+                    <label>Actions:</label>
+                    {{#times maxActions}}
+                      <span class="action-pip {{#if (lt @index ../actionsRemaining)}}available{{else}}spent{{/if}}">●</span>
+                    {{/times}}
+                    <button type="button" class="npc-quick-action" data-actor-id="{{id}}" title="Use Action">
+                      <i class="fas fa-bolt"></i>
+                    </button>
+                    <button type="button" class="reset-npc-actions" data-actor-id="{{id}}" title="Reset Actions">
+                      <i class="fas fa-redo"></i>
+                    </button>
+                  </div>
+                </div>
+                <div class="npc-controls">
+                  <button type="button" class="npc-damage-btn" data-actor-id="{{id}}" title="Apply Damage">
+                    <i class="fas fa-heart-broken"></i>
+                  </button>
+                  <button type="button" class="npc-heal-btn" data-actor-id="{{id}}" title="Heal">
+                    <i class="fas fa-heart"></i>
+                  </button>
+                  <button type="button" class="open-npc-sheet" data-actor-id="{{id}}" title="Open Sheet">
+                    <i class="fas fa-user"></i>
+                  </button>
+                  <button type="button" class="remove-npc-from-tracker" data-actor-id="{{id}}" title="Remove">
+                    <i class="fas fa-times"></i>
+                  </button>
+                </div>
+              </div>
+            {{/each}}
+          </div>
+        {{else}}
+          <p class="empty-message"><i class="fas fa-arrow-down"></i> Drag NPCs here to track them</p>
+        {{/if}}
+      </div>
+    </section>
+
+    {{!-- ═══════════════════════════════════════════════════════════════════════════ --}}
+    {{!-- NPCs TAB --}}
+    {{!-- ═══════════════════════════════════════════════════════════════════════════ --}}
+    <section class="tab-content" data-tab="npcs">
+      <h3><i class="fas fa-users-cog"></i> World NPCs</h3>
+      <div class="npc-list">
+        {{#each worldNPCs}}
+          <div class="npc-entry" draggable="true" data-actor-id="{{id}}">
+            <img src="{{img}}" alt="{{name}}" class="npc-thumb" />
+            <div class="npc-details">
+              <span class="npc-name">{{name}}</span>
+              <span class="npc-type">{{type}}</span>
+            </div>
+            <div class="npc-actions">
+              <button type="button" class="add-npc-to-tracker" data-actor-id="{{id}}" title="Add to Tracker">
+                <i class="fas fa-plus"></i>
+              </button>
+              <button type="button" class="open-npc-sheet" data-actor-id="{{id}}" title="Open Sheet">
+                <i class="fas fa-edit"></i>
+              </button>
+            </div>
+          </div>
+        {{else}}
+          <p class="empty-message">No NPCs in the world yet.</p>
+        {{/each}}
+      </div>
+    </section>
+
+    {{!-- ═══════════════════════════════════════════════════════════════════════════ --}}
+    {{!-- CORRUPTION TAB --}}
+    {{!-- ═══════════════════════════════════════════════════════════════════════════ --}}
+    <section class="tab-content" data-tab="corruption">
+      <h3><i class="fas fa-biohazard"></i> Party Corruption Tracker</h3>
+      
+      <div class="party-corruption-grid">
+        {{#each partyCorruption}}
+          <div class="character-corruption" data-actor-id="{{id}}">
+            <div class="char-header">
+              <img src="{{img}}" alt="{{name}}" class="char-thumb" />
+              <h4>{{name}}</h4>
+            </div>
+            
+            <div class="corruption-meters">
+              <div class="corruption-row physical">
+                <label><i class="fas fa-disease"></i> Physical</label>
+                <div class="corruption-bar-container">
+                  <div class="corruption-bar {{physical.danger}}" style="width: {{physical.percent}}%"></div>
+                  <span class="corruption-text">{{physical.value}} / {{physical.threshold}}</span>
+                </div>
+                <button type="button" class="apply-corruption-btn" data-actor-id="{{id}}" data-type="physical">
+                  <i class="fas fa-plus"></i>
+                </button>
+              </div>
+              
+              <div class="corruption-row mental">
+                <label><i class="fas fa-brain"></i> Mental</label>
+                <div class="corruption-bar-container">
+                  <div class="corruption-bar {{mental.danger}}" style="width: {{mental.percent}}%"></div>
+                  <span class="corruption-text">{{mental.value}} / {{mental.threshold}}</span>
+                </div>
+                <button type="button" class="apply-corruption-btn" data-actor-id="{{id}}" data-type="mental">
+                  <i class="fas fa-plus"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        {{else}}
+          <p class="empty-message">No player characters found.</p>
+        {{/each}}
+      </div>
+
+      <div class="quick-corruption-sources">
+        <h4><i class="fas fa-bolt"></i> Quick Corruption Sources</h4>
+        
+        <div class="source-columns">
+          <div class="source-column physical">
+            <h5><i class="fas fa-disease"></i> Physical</h5>
+            {{#each corruptionSources.physical}}
+              <div class="corruption-source" data-type="physical" data-source="{{label}}" data-amount="{{amount}}">
+                <span class="source-name">{{label}}</span>
+                <span class="source-amount">+{{amount}}</span>
+              </div>
+            {{/each}}
+          </div>
+          
+          <div class="source-column mental">
+            <h5><i class="fas fa-brain"></i> Mental</h5>
+            {{#each corruptionSources.mental}}
+              <div class="corruption-source" data-type="mental" data-source="{{label}}" data-amount="{{amount}}">
+                <span class="source-name">{{label}}</span>
+                <span class="source-amount">+{{amount}}</span>
+              </div>
+            {{/each}}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    {{!-- ═══════════════════════════════════════════════════════════════════════════ --}}
+    {{!-- REFERENCE TAB --}}
+    {{!-- ═══════════════════════════════════════════════════════════════════════════ --}}
+    <section class="tab-content" data-tab="reference">
+      <div class="reference-grid">
+        <div class="reference-section">
+          <h4><i class="fas fa-bullseye"></i> Target Numbers</h4>
+          <table class="reference-table">
+            <thead>
+              <tr>
+                <th>TN</th>
+                <th>Difficulty</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              {{#each targetNumbers}}
+                <tr>
+                  <td class="tn">{{tn}}</td>
+                  <td class="difficulty">{{difficulty}}</td>
+                  <td class="description">{{description}}</td>
+                </tr>
+              {{/each}}
+            </tbody>
+          </table>
+        </div>
+
+        <div class="reference-section">
+          <h4><i class="fas fa-crosshairs"></i> Hit Locations (1d10)</h4>
+          <table class="reference-table">
+            <thead>
+              <tr>
+                <th>Roll</th>
+                <th>Location</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>1</td><td>Head</td></tr>
+              <tr><td>2-3</td><td>Right Arm</td></tr>
+              <tr><td>4-5</td><td>Left Arm</td></tr>
+              <tr><td>6-7</td><td>Torso</td></tr>
+              <tr><td>8-9</td><td>Right Leg</td></tr>
+              <tr><td>10</td><td>Left Leg</td></tr>
+            </tbody>
+          </table>
+          <button type="button" class="roll-hit-location"><i class="fas fa-dice-d10"></i> Roll Hit Location</button>
+        </div>
+
+        <div class="reference-section">
+          <h4><i class="fas fa-dice"></i> Quick Rolls</h4>
+          <div class="quick-roll-buttons">
+            <button type="button" class="roll-d10"><i class="fas fa-dice-d10"></i> 1d10</button>
+            <button type="button" class="roll-2d10"><i class="fas fa-dice"></i> 2d10</button>
+            <button type="button" class="gm-quick-roll" data-formula="1d5" data-label="1d5">1d5</button>
+            <button type="button" class="gm-quick-roll" data-formula="1d100" data-label="Percentile">d100</button>
+          </div>
+        </div>
+
+        <div class="reference-section">
+          <h4><i class="fas fa-coins"></i> Common Prices</h4>
+          <table class="reference-table prices">
+            <tbody>
+              {{#each commonPrices}}
+                <tr>
+                  <td class="item-name">{{label}}</td>
+                  <td class="price">
+                    {{#if pounds}}£{{pounds}}{{/if}}
+                    {{#if shillings}}{{shillings}}s{{/if}}
+                    {{#if pence}}{{pence}}d{{/if}}
+                  </td>
+                </tr>
+              {{/each}}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    {{!-- ═══════════════════════════════════════════════════════════════════════════ --}}
+    {{!-- NOTES TAB --}}
+    {{!-- ═══════════════════════════════════════════════════════════════════════════ --}}
+    <section class="tab-content" data-tab="notes">
+      <h3><i class="fas fa-sticky-note"></i> Session Notes</h3>
+      <textarea class="session-notes-input" placeholder="Write your session notes here...">{{sessionNotes}}</textarea>
+    </section>
+  </div>
+</div>

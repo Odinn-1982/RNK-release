@@ -1,0 +1,44 @@
+{{!-- Unhallowed Metropolis Weapon Attack Roll Chat Card --}}
+<div class="um-roll-card weapon-roll">
+  <header class="card-header">
+    <img src="{{item.img}}" alt="{{item.name}}" width="36" height="36"/>
+    <div class="header-text">
+      <h3>{{item.name}}</h3>
+      <span class="actor-name">{{actor.name}}</span>
+    </div>
+  </header>
+  
+  <div class="roll-section">
+    <div class="roll-result">
+      <span class="total">{{total}}</span>
+      <span class="roll-formula">{{roll.formula}}</span>
+    </div>
+  </div>
+  
+  <div class="weapon-stats">
+    <div class="stat">
+      <label>Damage</label>
+      <span class="value damage-formula" data-damage="{{damage}}">{{damage}}</span>
+    </div>
+    <div class="stat">
+      <label>Type</label>
+      <span class="value">{{damageType}}</span>
+    </div>
+    {{#if isRanged}}
+    <div class="stat">
+      <label>Range</label>
+      <span class="value">{{range}} yds</span>
+    </div>
+    <div class="stat">
+      <label>Ammo</label>
+      <span class="value">{{ammo}}/{{capacity}}</span>
+    </div>
+    {{/if}}
+  </div>
+  
+  <div class="roll-buttons">
+    <button type="button" class="roll-damage" data-damage="{{damage}}">
+      <i class="fas fa-dice-d6"></i> Roll Damage
+    </button>
+  </div>
+</div>

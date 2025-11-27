@@ -1,0 +1,92 @@
+{{!-- Unhallowed Metropolis Psychic Power Sheet --}}
+<form class="um-item-sheet psychic-power-sheet flexcol" autocomplete="off">
+  
+  <header class="sheet-header">
+    <div class="item-image">
+      <img src="{{item.img}}" alt="{{item.name}}" data-edit="img"/>
+    </div>
+    
+    <div class="header-fields">
+      <h1 class="item-name">
+        <input type="text" name="name" value="{{item.name}}" placeholder="Power Name"/>
+      </h1>
+      
+      <div class="power-header-stats">
+        <div class="stat">
+          <label>Devotion</label>
+          <select name="system.devotion">
+            <option value="empathy" {{#if (eq system.devotion "empathy")}}selected{{/if}}>Empathy</option>
+            <option value="magnetism" {{#if (eq system.devotion "magnetism")}}selected{{/if}}>Magnetism</option>
+            <option value="necromancy" {{#if (eq system.devotion "necromancy")}}selected{{/if}}>Necromancy</option>
+            <option value="clairvoyance" {{#if (eq system.devotion "clairvoyance")}}selected{{/if}}>Clairvoyance</option>
+            <option value="psychokinesis" {{#if (eq system.devotion "psychokinesis")}}selected{{/if}}>Psychokinesis</option>
+            <option value="telepathy" {{#if (eq system.devotion "telepathy")}}selected{{/if}}>Telepathy</option>
+          </select>
+        </div>
+        
+        <div class="stat">
+          <label>Level</label>
+          <select name="system.level">
+            <option value="1" {{#if (eq system.level 1)}}selected{{/if}}>1</option>
+            <option value="2" {{#if (eq system.level 2)}}selected{{/if}}>2</option>
+            <option value="3" {{#if (eq system.level 3)}}selected{{/if}}>3</option>
+            <option value="4" {{#if (eq system.level 4)}}selected{{/if}}>4</option>
+            <option value="5" {{#if (eq system.level 5)}}selected{{/if}}>5</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <nav class="sheet-tabs tabs" data-group="primary">
+    <a class="item" data-tab="description">Description</a>
+    <a class="item" data-tab="rules">Rules</a>
+  </nav>
+
+  <section class="sheet-body">
+    
+    <div class="tab description" data-group="primary" data-tab="description">
+      <div class="editor-container">
+        <label>Description</label>
+        <textarea name="system.description">{{system.description}}</textarea>
+      </div>
+    </div>
+
+    <div class="tab rules" data-group="primary" data-tab="rules">
+      <div class="power-details">
+        
+        <div class="form-group">
+          <label>Subject</label>
+          <input type="text" name="system.subject" value="{{system.subject}}" placeholder="e.g., Single target, Group, Self"/>
+        </div>
+        
+        <div class="form-group">
+          <label>Range</label>
+          <input type="text" name="system.range" value="{{system.range}}" placeholder="e.g., Touch, 10 feet × Will"/>
+        </div>
+        
+        <div class="form-group">
+          <label>Trigger</label>
+          <select name="system.trigger">
+            <option value="passive" {{#if (eq system.trigger "passive")}}selected{{/if}}>Passive</option>
+            <option value="instant" {{#if (eq system.trigger "instant")}}selected{{/if}}>Instant</option>
+            <option value="maintained" {{#if (eq system.trigger "maintained")}}selected{{/if}}>Maintained</option>
+            <option value="ritual" {{#if (eq system.trigger "ritual")}}selected{{/if}}>Ritual</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label>Instability Cost</label>
+          <input type="number" name="system.instabilityCost" value="{{system.instabilityCost}}" data-dtype="Number" min="0"/>
+        </div>
+        
+        <div class="editor-container">
+          <label>Rules / Mechanics</label>
+          <textarea name="system.rules" class="large-textarea">{{system.rules}}</textarea>
+        </div>
+        
+      </div>
+    </div>
+    
+  </section>
+</form>

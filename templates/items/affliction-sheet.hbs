@@ -1,0 +1,47 @@
+{{!-- Unhallowed Metropolis Affliction Sheet --}}
+<form class="um-item-sheet affliction-sheet flexcol" autocomplete="off">
+  
+  <header class="sheet-header">
+    <div class="item-image">
+      <img src="{{item.img}}" alt="{{item.name}}" data-edit="img"/>
+    </div>
+    
+    <div class="header-fields">
+      <h1 class="item-name">
+        <input type="text" name="name" value="{{item.name}}" placeholder="Affliction Name"/>
+      </h1>
+    </div>
+  </header>
+
+  <section class="sheet-body">
+    
+    <div class="affliction-details">
+      
+      <div class="form-group">
+        <label>Severity</label>
+        <select name="system.severity">
+          {{#each config.afflictionSeverity as |label key|}}
+            <option value="{{key}}" {{#if (eq ../system.severity key)}}selected{{/if}}>
+              {{localize label}}
+            </option>
+          {{/each}}
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label>Type</label>
+        <select name="system.type">
+          <option value="physical" {{#if (eq system.type "physical")}}selected{{/if}}>Physical</option>
+          <option value="mental" {{#if (eq system.type "mental")}}selected{{/if}}>Mental</option>
+        </select>
+      </div>
+      
+      <div class="editor-container">
+        <label>Description / Effects</label>
+        <textarea name="system.description">{{system.description}}</textarea>
+      </div>
+      
+    </div>
+    
+  </section>
+</form>

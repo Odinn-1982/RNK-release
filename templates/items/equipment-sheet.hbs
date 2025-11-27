@@ -1,0 +1,59 @@
+{{!-- Unhallowed Metropolis Equipment Sheet --}}
+<form class="um-item-sheet equipment-sheet flexcol" autocomplete="off">
+  
+  <header class="sheet-header">
+    <div class="item-image">
+      <img src="{{item.img}}" alt="{{item.name}}" data-edit="img"/>
+    </div>
+    
+    <div class="header-fields">
+      <h1 class="item-name">
+        <input type="text" name="name" value="{{item.name}}" placeholder="Equipment Name"/>
+      </h1>
+    </div>
+  </header>
+
+  <nav class="sheet-tabs tabs" data-group="primary">
+    <a class="item" data-tab="description">Description</a>
+    <a class="item" data-tab="details">Details</a>
+  </nav>
+
+  <section class="sheet-body">
+    
+    <div class="tab description" data-group="primary" data-tab="description">
+      <div class="editor-container">
+        <label>Description</label>
+        <textarea name="system.description">{{system.description}}</textarea>
+      </div>
+    </div>
+
+    <div class="tab details" data-group="primary" data-tab="details">
+      <div class="equipment-details">
+        
+        <div class="form-group">
+          <label>Quantity</label>
+          <input type="number" name="system.quantity" value="{{system.quantity}}" data-dtype="Number" min="0"/>
+        </div>
+        
+        <div class="form-group">
+          <label>Weight</label>
+          <input type="text" name="system.weight" value="{{system.weight}}" placeholder="e.g., 2 lbs"/>
+        </div>
+        
+        <div class="form-group price">
+          <label>Price</label>
+          <div class="price-fields">
+            <input type="number" name="system.price.pounds" value="{{system.price.pounds}}" data-dtype="Number" min="0"/>
+            <span>£</span>
+            <input type="number" name="system.price.shillings" value="{{system.price.shillings}}" data-dtype="Number" min="0"/>
+            <span>s</span>
+            <input type="number" name="system.price.pence" value="{{system.price.pence}}" data-dtype="Number" min="0"/>
+            <span>d</span>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+    
+  </section>
+</form>

@@ -1,0 +1,286 @@
+{
+  "UM": {
+    "SystemName": "Unhallowed Metropolis",
+    "WelcomeMessage": "Welcome to Neo-Victorian London. The dead walk, and the living hide behind walls of brass and steel.",
+    
+    "Attributes": {
+      "Vitality": "Vitality",
+      "VitalityAbbr": "VIT",
+      "Coordination": "Coordination",
+      "CoordinationAbbr": "CRD",
+      "Wit": "Wit",
+      "WitAbbr": "WIT",
+      "Intellect": "Intellect",
+      "IntellectAbbr": "INT",
+      "Will": "Will",
+      "WillAbbr": "WIL",
+      "Charm": "Charm",
+      "CharmAbbr": "CHM"
+    },
+    
+    "Derived": {
+      "Health": "Health",
+      "MentalHealth": "Mental Health",
+      "Initiative": "Initiative",
+      "Actions": "Actions",
+      "Movement": "Movement",
+      "CorruptionThreshold": "Corruption Threshold"
+    },
+    
+    "Skills": {
+      "Athletics": "Athletics",
+      "Brawl": "Brawl",
+      "Endurance": "Endurance",
+      "Concentration": "Concentration",
+      "Drive": "Drive",
+      "Firearms": "Firearms",
+      "Larceny": "Larceny",
+      "Melee": "Melee",
+      "Stealth": "Stealth",
+      "AnimalHandling": "Animal Handling",
+      "Awareness": "Awareness",
+      "Empathy": "Empathy",
+      "Gambling": "Gambling",
+      "Academics": "Academics",
+      "Bureaucracy": "Bureaucracy",
+      "Criminology": "Criminology",
+      "Demolitions": "Demolitions",
+      "Engineering": "Engineering",
+      "Medicine": "Medicine",
+      "Occult": "Occult",
+      "Politics": "Politics",
+      "Science": "Science",
+      "Survival": "Survival",
+      "Intimidation": "Intimidation",
+      "Meditation": "Meditation",
+      "Artistry": "Artistry",
+      "Etiquette": "Etiquette",
+      "Expression": "Expression",
+      "Leadership": "Leadership",
+      "Negotiation": "Negotiation",
+      "Seduction": "Seduction",
+      "Streetwise": "Streetwise",
+      "Subterfuge": "Subterfuge"
+    },
+    
+    "Callings": {
+      "Aristocrat": "Aristocrat",
+      "Criminal": "Criminal",
+      "DeathwatchSoldier": "Deathwatch Soldier",
+      "Detective": "Detective",
+      "Dhampir": "Dhampir",
+      "Doctor": "Doctor",
+      "Medium": "Medium",
+      "Mourner": "Mourner",
+      "Promethean": "Promethean",
+      "Undertaker": "Undertaker",
+      "Soldier": "Soldier",
+      "Inventor": "Inventor",
+      "Clergy": "Clergy",
+      "Courtesan": "Courtesan",
+      "Journalist": "Journalist",
+      "Alchemist": "Alchemist",
+      "Servant": "Servant",
+      "Psychic": "Psychic",
+      "Entertainer": "Entertainer"
+    },
+    
+    "SocialClass": {
+      "Label": "Social Class",
+      "Gutter": "Gutter",
+      "Working": "Working Class",
+      "Middle": "Middle Class",
+      "UpperMiddle": "Upper Middle Class",
+      "Upper": "Upper Class",
+      "Aristocracy": "Aristocracy"
+    },
+    
+    "Corruption": {
+      "Physical": "Physical Corruption",
+      "Mental": "Mental Corruption",
+      "Desire": "Desire",
+      "DesirePlaceholder": "What do you crave?",
+      "Drive": "Drive",
+      "DrivePlaceholder": "What drives you?"
+    },
+    
+    "Afflictions": {
+      "Title": "Afflictions"
+    },
+    
+    "Affliction": {
+      "Minor": "Minor",
+      "Moderate": "Moderate",
+      "Severe": "Severe"
+    },
+    
+    "Disorders": {
+      "Title": "Disorders"
+    },
+    
+    "Calling": "Calling",
+    
+    "Tabs": {
+      "Attributes": "Attributes",
+      "Skills": "Skills",
+      "Powers": "Powers",
+      "Combat": "Combat",
+      "Inventory": "Inventory",
+      "Corruption": "Corruption",
+      "Biography": "Biography",
+      "Stats": "Stats",
+      "Abilities": "Abilities",
+      "Description": "Description"
+    },
+    
+    "Combat": {
+      "Weapons": "Weapons",
+      "Armor": "Armor"
+    },
+    
+    "Currency": {
+      "Title": "Currency",
+      "Pounds": "Pounds",
+      "Shillings": "Shillings",
+      "Pence": "Pence"
+    },
+    
+    "Equipment": {
+      "Title": "Equipment"
+    },
+    
+    "ItemTypes": {
+      "Weapon": "Weapon",
+      "Armor": "Armor",
+      "Equipment": "Equipment",
+      "Quality": "Quality",
+      "Affliction": "Affliction",
+      "Disorder": "Disorder",
+      "Calling": "Calling",
+      "Talent": "Talent",
+      "PsychicPower": "Psychic Power"
+    },
+    
+    "Devotions": {
+      "Empathy": "Empathy",
+      "Magnetism": "Magnetism",
+      "Necromancy": "Necromancy",
+      "Clairvoyance": "Clairvoyance",
+      "Psychokinesis": "Psychokinesis",
+      "Telepathy": "Telepathy"
+    },
+    
+    "Psychic": {
+      "Devotion": "Devotion",
+      "Level": "Level",
+      "Subject": "Subject",
+      "Range": "Range",
+      "Trigger": "Trigger",
+      "InstabilityCost": "Instability Cost",
+      "Rules": "Rules",
+      "TriggerPassive": "Passive",
+      "TriggerInstant": "Instant",
+      "TriggerMaintained": "Maintained",
+      "TriggerRitual": "Ritual"
+    },
+    
+    "WeaponTypes": {
+      "Melee": "Melee",
+      "Ranged": "Ranged",
+      "Thrown": "Thrown"
+    },
+    
+    "DamageTypes": {
+      "Bashing": "Bashing",
+      "Lethal": "Lethal",
+      "Aggravated": "Aggravated"
+    },
+    
+    "HitLocations": {
+      "Head": "Head",
+      "Torso": "Torso",
+      "RightArm": "Right Arm",
+      "LeftArm": "Left Arm",
+      "RightLeg": "Right Leg",
+      "LeftLeg": "Left Leg"
+    },
+    
+    "Item": {
+      "New": "New {type}",
+      "AddWeapon": "Add Weapon",
+      "AddArmor": "Add Armor",
+      "AddEquipment": "Add Equipment",
+      "AddAffliction": "Add Affliction",
+      "AddDisorder": "Add Disorder"
+    },
+    
+    "Bio": {
+      "Age": "Age",
+      "Gender": "Gender",
+      "Birthplace": "Birthplace",
+      "Height": "Height",
+      "Weight": "Weight",
+      "Appearance": "Appearance",
+      "Background": "Background",
+      "Notes": "Notes"
+    },
+    
+    "SheetLabels": {
+      "Character": "UM Character Sheet",
+      "NPC": "UM NPC Sheet",
+      "Creature": "UM Creature Sheet",
+      "Item": "UM Item Sheet"
+    },
+    
+    "Settings": {
+      "CorruptionTracking": "Automatic Corruption Tracking",
+      "CorruptionTrackingHint": "Automatically track corruption thresholds and warn when exceeded.",
+      "AutomaticDegrees": "Calculate Degrees of Success",
+      "AutomaticDegreesHint": "Automatically calculate and display degrees of success/failure on rolls."
+    },
+    
+    "Roll": {
+      "Success": "Success",
+      "Failure": "Failure",
+      "ExceptionalSuccess": "Exceptional Success",
+      "CriticalSuccess": "Critical Success!",
+      "CriticalFailure": "Critical Failure!"
+    },
+    
+    "TargetNumbers": {
+      "VeryEasy": "Very Easy",
+      "Easy": "Easy",
+      "Average": "Average",
+      "Challenging": "Challenging",
+      "Difficult": "Difficult",
+      "Extreme": "Extreme"
+    },
+    
+    "Dialog": {
+      "RollType": "Roll Type",
+      "Attribute": "Attribute",
+      "Skill": "Skill",
+      "TargetNumber": "Target Number",
+      "Modifier": "Modifier",
+      "Specialization": "Specialization",
+      "Formula": "Formula",
+      "None": "None",
+      "Roll": "Roll",
+      "Cancel": "Cancel"
+    },
+    
+    "Creature": {
+      "Type": "Creature Type",
+      "BloodPool": "Blood Pool",
+      "Generation": "Generation",
+      "Disciplines": "Disciplines",
+      "SpecialAbilities": "Special Abilities",
+      "Features": "Features",
+      "AnimateType": "Animate Type",
+      "Thrall": "Thrall",
+      "Drone": "Drone",
+      "Ghoul": "Ghoul",
+      "Lich": "Lich"
+    }
+  }
+}

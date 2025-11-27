@@ -1,0 +1,201 @@
+{
+  "Actor": {
+    "types": ["character", "npc", "animate", "vampire", "creature"],
+    "templates": {
+      "base": {
+        "attributes": {
+          "vitality": { "value": 2, "modifier": 0 },
+          "coordination": { "value": 2, "modifier": 0 },
+          "wit": { "value": 2, "modifier": 0 },
+          "intellect": { "value": 2, "modifier": 0 },
+          "will": { "value": 2, "modifier": 0 },
+          "charm": { "value": 2, "modifier": 0 }
+        },
+        "derived": {
+          "health": { "value": 14, "max": 14, "temp": 0 },
+          "mentalHealth": { "value": 14, "max": 14, "temp": 0 },
+          "initiative": 4,
+          "actions": 2,
+          "movement": 5,
+          "corruptionThreshold": 4
+        }
+      },
+      "skills": {
+        "skills": {
+          "athletics": { "value": 0, "specializations": [] },
+          "brawl": { "value": 0, "specializations": [] },
+          "endurance": { "value": 0, "specializations": [] },
+          "concentration": { "value": 0, "specializations": [] },
+          "drive": { "value": 0, "specializations": [] },
+          "firearms": { "value": 0, "specializations": [] },
+          "larceny": { "value": 0, "specializations": [] },
+          "melee": { "value": 0, "specializations": [] },
+          "stealth": { "value": 0, "specializations": [] },
+          "animalHandling": { "value": 0, "specializations": [] },
+          "awareness": { "value": 0, "specializations": [] },
+          "empathy": { "value": 0, "specializations": [] },
+          "gambling": { "value": 0, "specializations": [] },
+          "academics": { "value": 0, "specializations": [] },
+          "bureaucracy": { "value": 0, "specializations": [] },
+          "criminology": { "value": 0, "specializations": [] },
+          "demolitions": { "value": 0, "specializations": [] },
+          "engineering": { "value": 0, "specializations": [] },
+          "medicine": { "value": 0, "specializations": [] },
+          "occult": { "value": 0, "specializations": [] },
+          "politics": { "value": 0, "specializations": [] },
+          "science": { "value": 0, "specializations": [] },
+          "survival": { "value": 0, "specializations": [] },
+          "intimidation": { "value": 0, "specializations": [] },
+          "meditation": { "value": 0, "specializations": [] },
+          "artistry": { "value": 0, "specializations": [] },
+          "etiquette": { "value": 0, "specializations": [] },
+          "expression": { "value": 0, "specializations": [] },
+          "leadership": { "value": 0, "specializations": [] },
+          "negotiation": { "value": 0, "specializations": [] },
+          "seduction": { "value": 0, "specializations": [] },
+          "streetwise": { "value": 0, "specializations": [] },
+          "subterfuge": { "value": 0, "specializations": [] }
+        }
+      },
+      "corruption": {
+        "corruption": {
+          "physical": { "value": 0, "threshold": 4 },
+          "mental": { "value": 0, "threshold": 4 },
+          "desire": "",
+          "drive": ""
+        }
+      },
+      "details": {
+        "details": {
+          "calling": "",
+          "socialClass": "",
+          "background": "",
+          "birthplace": "",
+          "age": 25,
+          "gender": "",
+          "height": "",
+          "weight": "",
+          "appearance": "",
+          "notes": ""
+        }
+      },
+      "currency": {
+        "currency": {
+          "pounds": 0,
+          "shillings": 0,
+          "pence": 0
+        }
+      }
+    },
+    "character": {
+      "templates": ["base", "skills", "corruption", "details", "currency"]
+    },
+    "npc": {
+      "templates": ["base"],
+      "details": {
+        "type": "",
+        "notes": ""
+      }
+    },
+    "animate": {
+      "templates": ["base"],
+      "animateType": "thrall",
+      "special": [],
+      "notes": ""
+    },
+    "vampire": {
+      "templates": ["base", "skills"],
+      "bloodPool": { "value": 10, "max": 10 },
+      "generation": 1,
+      "disciplines": [],
+      "notes": ""
+    },
+    "creature": {
+      "templates": ["base"],
+      "creatureType": "",
+      "special": [],
+      "notes": ""
+    }
+  },
+  "Item": {
+    "types": ["weapon", "armor", "equipment", "quality", "affliction", "disorder", "talent", "calling", "psychicPower"],
+    "templates": {
+      "base": {
+        "description": "",
+        "source": ""
+      }
+    },
+    "weapon": {
+      "templates": ["base"],
+      "weaponType": "melee",
+      "skill": "melee",
+      "damage": "1d10",
+      "damageType": "lethal",
+      "range": 0,
+      "rof": 1,
+      "capacity": 0,
+      "currentAmmo": 0,
+      "qualities": ""
+    },
+    "armor": {
+      "templates": ["base"],
+      "protection": 0,
+      "penalty": 0,
+      "coverage": {
+        "head": false,
+        "torso": true,
+        "rightArm": false,
+        "leftArm": false,
+        "rightLeg": false,
+        "leftLeg": false
+      },
+      "equipped": false
+    },
+    "equipment": {
+      "templates": ["base"],
+      "quantity": 1,
+      "weight": "",
+      "price": {
+        "pounds": 0,
+        "shillings": 0,
+        "pence": 0
+      }
+    },
+    "quality": {
+      "templates": ["base"],
+      "qualityType": "positive",
+      "cost": 0
+    },
+    "affliction": {
+      "templates": ["base"],
+      "severity": "minor",
+      "type": "physical"
+    },
+    "disorder": {
+      "templates": ["base"],
+      "trigger": ""
+    },
+    "talent": {
+      "templates": ["base"],
+      "prerequisites": "",
+      "actionCost": 0
+    },
+    "calling": {
+      "templates": ["base"],
+      "skills": [],
+      "qualities": [],
+      "equipment": [],
+      "wealth": ""
+    },
+    "psychicPower": {
+      "templates": ["base"],
+      "devotion": "",
+      "level": 1,
+      "subject": "",
+      "range": "",
+      "trigger": "",
+      "rules": "",
+      "instabilityCost": 0
+    }
+  }
+}

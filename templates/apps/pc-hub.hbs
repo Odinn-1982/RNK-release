@@ -1,0 +1,248 @@
+<div class="pc-hub-container">
+  {{!-- Character Header --}}
+  <header class="pc-hub-header">
+    <img src="{{actor.img}}" alt="{{actor.name}}" class="character-portrait" />
+    <div class="character-info">
+      <h2>{{actor.name}}</h2>
+      <div class="vital-bars">
+        <div class="health-section">
+          <label><i class="fas fa-heart"></i> Health</label>
+          <div class="bar-container health">
+            <div class="bar" style="width: {{health.percent}}%"></div>
+            <span class="bar-text">{{health.current}} / {{health.max}}</span>
+          </div>
+          <div class="bar-controls">
+            <button type="button" class="take-damage" title="Take Damage"><i class="fas fa-minus"></i></button>
+            <button type="button" class="heal-health" title="Heal"><i class="fas fa-plus"></i></button>
+          </div>
+        </div>
+        <div class="mental-section">
+          <label><i class="fas fa-brain"></i> Mental</label>
+          <div class="bar-container mental">
+            <div class="bar" style="width: {{mentalHealth.percent}}%"></div>
+            <span class="bar-text">{{mentalHealth.current}} / {{mentalHealth.max}}</span>
+          </div>
+          <div class="bar-controls">
+            <button type="button" class="take-mental-damage" title="Take Mental Damage"><i class="fas fa-minus"></i></button>
+            <button type="button" class="heal-mental" title="Heal Mental"><i class="fas fa-plus"></i></button>
+          </div>
+        </div>
+      </div>
+      <div class="combat-stats">
+        <span class="stat"><i class="fas fa-bolt"></i> Init: {{combatStats.initiative}}</span>
+        <span class="stat"><i class="fas fa-running"></i> Move: {{combatStats.movement}}</span>
+        <span class="stat"><i class="fas fa-fist-raised"></i> Actions: {{combatStats.actions}}</span>
+        <span class="stat currency"><i class="fas fa-coins"></i> {{formattedCurrency}}</span>
+      </div>
+    </div>
+    <button type="button" class="open-sheet" title="Open Full Sheet"><i class="fas fa-external-link-alt"></i></button>
+  </header>
+
+  {{!-- Tab Navigation --}}
+  <nav class="hub-tabs">
+    <a class="tab" data-tab="actions"><i class="fas fa-crosshairs"></i> Actions</a>
+    <a class="tab" data-tab="skills"><i class="fas fa-graduation-cap"></i> Skills</a>
+    <a class="tab" data-tab="powers"><i class="fas fa-hand-sparkles"></i> Powers</a>
+    <a class="tab" data-tab="status"><i class="fas fa-heartbeat"></i> Status</a>
+  </nav>
+
+  <div class="hub-content">
+    {{!-- ═══════════════════════════════════════════════════════════════════════════ --}}
+    {{!-- ACTIONS TAB --}}
+    {{!-- ═══════════════════════════════════════════════════════════════════════════ --}}
+    <section class="tab-content" data-tab="actions">
+      {{!-- Attribute Quick Rolls --}}
+      <div class="action-section">
+        <h3><i class="fas fa-dice-d20"></i> Attribute Checks</h3>
+        <div class="attribute-buttons">
+          {{#each attributes}}
+            <button type="button" class="roll-attribute" data-attribute="{{key}}">
+              <span class="attr-name">{{label}}</span>
+              <span class="attr-value">{{value}}</span>
+            </button>
+          {{/each}}
+        </div>
+      </div>
+
+      {{!-- Weapons --}}
+      <div class="action-section">
+        <h3><i class="fas fa-fist-raised"></i> Weapons</h3>
+        {{#if weapons.length}}
+          <div class="weapon-list">
+            {{#each weapons}}
+              <div class="weapon-entry" data-weapon-id="{{id}}">
+                <img src="{{img}}" alt="{{name}}" class="weapon-icon" />
+                <div class="weapon-info">
+                  <span class="weapon-name">{{name}}</span>
+                  <span class="weapon-damage">{{damage}}</span>
+                </div>
+                <div class="weapon-actions">
+                  <button type="button" class="weapon-attack" data-weapon-id="{{id}}" title="Attack">
+                    <i class="fas fa-crosshairs"></i>
+                  </button>
+                  <button type="button" class="weapon-aimed-attack" data-weapon-id="{{id}}" title="Aimed Shot">
+                    <i class="fas fa-bullseye"></i>
+                  </button>
+                  {{#if (eq weaponType 'ranged')}}
+                    <button type="button" class="weapon-autofire" data-weapon-id="{{id}}" title="Autofire">
+                      <i class="fas fa-bolt"></i>
+                    </button>
+                  {{/if}}
+                </div>
+              </div>
+            {{/each}}
+          </div>
+        {{else}}
+          <p class="empty-message">No weapons equipped.</p>
+        {{/if}}
+      </div>
+
+      {{!-- Quick Actions --}}
+      <div class="action-section">
+        <h3><i class="fas fa-bolt"></i> Quick Actions</h3>
+        <div class="quick-action-buttons">
+          <button type="button" class="roll-initiative"><i class="fas fa-sort-numeric-down"></i> Roll Initiative</button>
+        </div>
+      </div>
+    </section>
+
+    {{!-- ═══════════════════════════════════════════════════════════════════════════ --}}
+    {{!-- SKILLS TAB --}}
+    {{!-- ═══════════════════════════════════════════════════════════════════════════ --}}
+    <section class="tab-content" data-tab="skills">
+      <div class="skills-grid">
+        {{#each skillsByAttribute}}
+          <div class="skill-column" data-attribute="{{@key}}">
+            <h4 class="attribute-header">{{@key}}</h4>
+            {{#each this}}
+              <button type="button" class="roll-skill skill-entry" data-skill="{{key}}">
+                <span class="skill-name">{{label}}</span>
+                <span class="skill-value">{{value}}</span>
+                <span class="skill-total">(+{{attributeValue}})</span>
+              </button>
+            {{/each}}
+          </div>
+        {{/each}}
+      </div>
+    </section>
+
+    {{!-- ═══════════════════════════════════════════════════════════════════════════ --}}
+    {{!-- POWERS TAB --}}
+    {{!-- ═══════════════════════════════════════════════════════════════════════════ --}}
+    <section class="tab-content" data-tab="powers">
+      {{#if hasPowers}}
+        <div class="powers-by-devotion">
+          {{#each powers}}
+            {{#if this.length}}
+              <div class="devotion-section" data-devotion="{{@key}}">
+                <h4><i class="fas fa-hand-sparkles"></i> {{@key}}</h4>
+                <div class="power-list">
+                  {{#each this}}
+                    <div class="power-entry" data-power-id="{{id}}">
+                      <div class="power-info">
+                        <span class="power-name">{{name}}</span>
+                        <span class="power-level">Level {{system.level}}</span>
+                      </div>
+                      <button type="button" class="activate-power" data-power-id="{{id}}">
+                        <i class="fas fa-play"></i> Activate
+                      </button>
+                    </div>
+                  {{/each}}
+                </div>
+              </div>
+            {{/if}}
+          {{/each}}
+        </div>
+      {{else}}
+        <div class="no-powers">
+          <i class="fas fa-ban"></i>
+          <p>This character has no psychic abilities.</p>
+          <p class="hint">Psychic powers require the Meditation skill.</p>
+        </div>
+      {{/if}}
+    </section>
+
+    {{!-- ═══════════════════════════════════════════════════════════════════════════ --}}
+    {{!-- STATUS TAB --}}
+    {{!-- ═══════════════════════════════════════════════════════════════════════════ --}}
+    <section class="tab-content" data-tab="status">
+      {{!-- Corruption Status --}}
+      <div class="status-section">
+        <h3><i class="fas fa-biohazard"></i> Corruption</h3>
+        <div class="corruption-display">
+          <div class="corruption-meter physical">
+            <label><i class="fas fa-disease"></i> Physical</label>
+            <div class="bar-container {{corruption.physical.danger}}">
+              <div class="bar" style="width: {{corruption.physical.percent}}%"></div>
+              <span class="bar-text">{{corruption.physical.value}} / {{corruption.physical.threshold}}</span>
+            </div>
+            <button type="button" class="add-corruption" data-type="physical" title="Add Physical Corruption">
+              <i class="fas fa-plus"></i>
+            </button>
+          </div>
+          <div class="corruption-meter mental">
+            <label><i class="fas fa-brain"></i> Mental</label>
+            <div class="bar-container {{corruption.mental.danger}}">
+              <div class="bar" style="width: {{corruption.mental.percent}}%"></div>
+              <span class="bar-text">{{corruption.mental.value}} / {{corruption.mental.threshold}}</span>
+            </div>
+            <button type="button" class="add-corruption" data-type="mental" title="Add Mental Corruption">
+              <i class="fas fa-plus"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {{!-- Afflictions & Disorders --}}
+      <div class="status-section conditions">
+        <h3><i class="fas fa-skull-crossbones"></i> Afflictions & Disorders</h3>
+        <div class="conditions-grid">
+          <div class="afflictions-list">
+            <h4>Physical Afflictions</h4>
+            {{#if afflictions.length}}
+              {{#each afflictions}}
+                <div class="condition-entry item" data-item-id="{{id}}">
+                  <span class="condition-name">{{name}}</span>
+                  <span class="condition-severity">{{system.severity}}</span>
+                  <button type="button" class="item-edit"><i class="fas fa-edit"></i></button>
+                </div>
+              {{/each}}
+            {{else}}
+              <p class="empty-message">None</p>
+            {{/if}}
+          </div>
+          <div class="disorders-list">
+            <h4>Mental Disorders</h4>
+            {{#if disorders.length}}
+              {{#each disorders}}
+                <div class="condition-entry item" data-item-id="{{id}}">
+                  <span class="condition-name">{{name}}</span>
+                  <span class="condition-severity">{{system.severity}}</span>
+                  <button type="button" class="item-edit"><i class="fas fa-edit"></i></button>
+                </div>
+              {{/each}}
+            {{else}}
+              <p class="empty-message">None</p>
+            {{/if}}
+          </div>
+        </div>
+      </div>
+
+      {{!-- Currency --}}
+      <div class="status-section currency-section">
+        <h3><i class="fas fa-coins"></i> Wealth</h3>
+        <div class="currency-display">
+          <div class="currency-breakdown">
+            <span class="currency-item pounds"><i class="fas fa-pound-sign"></i> {{currency.pounds}}</span>
+            <span class="currency-item shillings">{{currency.shillings}}s</span>
+            <span class="currency-item pence">{{currency.pence}}d</span>
+          </div>
+          <div class="currency-controls">
+            <button type="button" class="add-funds"><i class="fas fa-plus"></i> Add</button>
+            <button type="button" class="spend-funds"><i class="fas fa-minus"></i> Spend</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>

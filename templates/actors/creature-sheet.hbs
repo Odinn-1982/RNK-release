@@ -1,0 +1,158 @@
+{{!-- Unhallowed Metropolis Creature Sheet (Animates, Vampires, etc.) --}}
+<form class="um-creature-sheet flexcol" autocomplete="off">
+  
+  {{!-- Header Section --}}
+  <header class="sheet-header">
+    <div class="profile-section">
+      <img class="profile-img" src="{{actor.img}}" alt="{{actor.name}}" data-edit="img"/>
+    </div>
+    
+    <div class="header-fields">
+      <h1 class="charname">
+        <input type="text" name="name" value="{{actor.name}}" placeholder="Creature Name"/>
+      </h1>
+      
+      <div class="creature-type">
+        <label>Type</label>
+        <select name="system.creatureType">
+          <option value="animate" {{#if (eq system.creatureType "animate")}}selected{{/if}}>Animate</option>
+          <option value="vampire" {{#if (eq system.creatureType "vampire")}}selected{{/if}}>Vampire</option>
+          <option value="thrope" {{#if (eq system.creatureType "thrope")}}selected{{/if}}>Thrope</option>
+          <option value="ghoul" {{#if (eq system.creatureType "ghoul")}}selected{{/if}}>Ghoul</option>
+          <option value="spirit" {{#if (eq system.creatureType "spirit")}}selected{{/if}}>Spirit</option>
+          <option value="other" {{#if (eq system.creatureType "other")}}selected{{/if}}>Other</option>
+        </select>
+      </div>
+    </div>
+    
+    {{!-- Vital Statistics --}}
+    <div class="vital-stats">
+      <div class="health-section">
+        <label>{{localize "UM.Derived.Health"}}</label>
+        <div class="health-inputs">
+          <input type="number" name="system.derived.health.value" value="{{system.derived.health.value}}" data-dtype="Number"/>
+          <span>/</span>
+          <input type="number" name="system.derived.health.max" value="{{system.derived.health.max}}" data-dtype="Number"/>
+        </div>
+      </div>
+      
+      <div class="derived-row">
+        <div class="derived-stat">
+          <label>Init</label>
+          <input type="number" name="system.derived.initiative" value="{{system.derived.initiative}}" data-dtype="Number"/>
+        </div>
+        <div class="derived-stat">
+          <label>Actions</label>
+          <input type="number" name="system.derived.actions" value="{{system.derived.actions}}" data-dtype="Number"/>
+        </div>
+        <div class="derived-stat">
+          <label>Move</label>
+          <input type="number" name="system.derived.movement" value="{{system.derived.movement}}" data-dtype="Number"/>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  {{!-- Navigation Tabs --}}
+  <nav class="sheet-tabs tabs" data-group="primary">
+    <a class="item" data-tab="stats">{{localize "UM.Tabs.Stats"}}</a>
+    <a class="item" data-tab="abilities">{{localize "UM.Tabs.Abilities"}}</a>
+    <a class="item" data-tab="description">{{localize "UM.Tabs.Description"}}</a>
+  </nav>
+
+  {{!-- Sheet Body --}}
+  <section class="sheet-body">
+    
+    {{!-- Stats Tab --}}
+    <div class="tab stats" data-group="primary" data-tab="stats">
+      <div class="creature-attributes">
+        <h3>{{localize "UM.Tabs.Attributes"}}</h3>
+        <div class="attributes-compact">
+          {{#each @root.config.attributes as |label key|}}
+            <div class="attribute-compact" data-attribute="{{key}}">
+              <label>{{localize label}}</label>
+              <input type="number" name="system.attributes.{{key}}.value" 
+                     value="{{lookup (lookup ../system.attributes key) 'value'}}" 
+                     data-dtype="Number" min="0" max="10"/>
+              <button type="button" class="attribute-roll" data-attribute="{{key}}" title="Roll">
+                <i class="fas fa-dice-d20"></i>
+              </button>
+            </div>
+          {{/each}}
+        </div>
+      </div>
+      
+      <div class="creature-features">
+        <h3>Special Features</h3>
+        <div class="features-list">
+          <textarea name="system.special" placeholder="List special abilities, immunities, weaknesses...">{{system.special}}</textarea>
+        </div>
+      </div>
+      
+      <div class="creature-weapons">
+        <h3>{{localize "UM.Combat.Weapons"}}</h3>
+        <div class="items-list weapons-list">
+          {{#each items.weapons as |weapon|}}
+            <div class="item weapon" data-item-id="{{weapon._id}}">
+              <span class="item-name">{{weapon.name}}</span>
+              <span class="item-damage">{{weapon.system.damage}}</span>
+              <div class="item-controls">
+                <a class="item-roll" title="Attack"><i class="fas fa-dice-d20"></i></a>
+                <a class="item-edit" title="Edit"><i class="fas fa-edit"></i></a>
+                <a class="item-delete" title="Delete"><i class="fas fa-trash"></i></a>
+              </div>
+            </div>
+          {{/each}}
+          <div class="item-create" data-type="weapon">
+            <a><i class="fas fa-plus"></i> Add Attack</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {{!-- Abilities Tab --}}
+    <div class="tab abilities" data-group="primary" data-tab="abilities">
+      <div class="abilities-section">
+        <h3>Qualities & Abilities</h3>
+        <div class="items-list abilities-list">
+          {{#each items.abilities as |ability|}}
+            <div class="item ability" data-item-id="{{ability._id}}">
+              <span class="item-name">{{ability.name}}</span>
+              <div class="item-controls">
+                <a class="item-edit" title="Edit"><i class="fas fa-edit"></i></a>
+                <a class="item-delete" title="Delete"><i class="fas fa-trash"></i></a>
+              </div>
+            </div>
+          {{/each}}
+          <div class="item-create" data-type="quality">
+            <a><i class="fas fa-plus"></i> Add Ability</a>
+          </div>
+        </div>
+      </div>
+      
+      {{!-- Vampire-specific: Blood Pool --}}
+      {{#if (eq system.creatureType "vampire")}}
+      <div class="vampire-section">
+        <h3>Blood Pool</h3>
+        <div class="blood-pool">
+          <input type="number" name="system.bloodPool.value" value="{{system.bloodPool.value}}" data-dtype="Number" min="0"/>
+          <span>/</span>
+          <input type="number" name="system.bloodPool.max" value="{{system.bloodPool.max}}" data-dtype="Number" min="1"/>
+        </div>
+        
+        <h3>Disciplines</h3>
+        <textarea name="system.disciplines" placeholder="List vampire disciplines...">{{system.disciplines}}</textarea>
+      </div>
+      {{/if}}
+    </div>
+
+    {{!-- Description Tab --}}
+    <div class="tab description" data-group="primary" data-tab="description">
+      <div class="editor-container">
+        <label>{{localize "UM.Bio.Notes"}}</label>
+        <textarea name="system.notes" class="large-textarea">{{system.notes}}</textarea>
+      </div>
+    </div>
+    
+  </section>
+</form>
