@@ -1,0 +1,131 @@
+<div class="wealth-hub-container">
+  <header class="hub-header wealth-header">
+    <div class="header-icon">
+      <i class="fa-solid fa-coins"></i>
+    </div>
+    <div class="header-title">
+      <h2>Wealth Hub</h2>
+      {{#if actor}}
+      <span class="actor-name">{{actor.name}}</span>
+      {{else}}
+      <span class="no-actor">No character selected</span>
+      {{/if}}
+    </div>
+    <button class="hub-close" type="button"><i class="fa-solid fa-times"></i></button>
+  </header>
+
+  {{#if actor}}
+  <section class="hub-content">
+    <!-- Current Wealth Display -->
+    <div class="wealth-display">
+      <div class="wealth-level">
+        <span class="level-label">Wealth Level:</span>
+        <span class="level-value">{{wealthLevel}}</span>
+      </div>
+      <div class="currency-display">
+        <div class="currency-box pounds">
+          <span class="currency-symbol">£</span>
+          <span class="currency-value">{{currency.pounds}}</span>
+          <span class="currency-name">Pounds</span>
+        </div>
+        <div class="currency-box shillings">
+          <span class="currency-symbol">s</span>
+          <span class="currency-value">{{currency.shillings}}</span>
+          <span class="currency-name">Shillings</span>
+        </div>
+        <div class="currency-box pence">
+          <span class="currency-symbol">d</span>
+          <span class="currency-value">{{currency.pence}}</span>
+          <span class="currency-name">Pence</span>
+        </div>
+      </div>
+      <div class="total-value">
+        Total: {{currency.totalPence}}d ({{currency.pounds}}£ {{currency.shillings}}s {{currency.pence}}d)
+      </div>
+    </div>
+
+    <!-- Currency Controls -->
+    <div class="currency-controls">
+      <div class="control-section pounds-control">
+        <h4><i class="fa-solid fa-sterling-sign"></i> Pounds</h4>
+        <div class="control-buttons">
+          <button type="button" class="subtract-currency" data-type="pounds" data-amount="1">-1</button>
+          <button type="button" class="add-currency" data-type="pounds" data-amount="1">+1</button>
+          <button type="button" class="add-currency" data-type="pounds" data-amount="5">+5</button>
+          <button type="button" class="add-currency" data-type="pounds" data-amount="10">+10</button>
+        </div>
+      </div>
+      <div class="control-section shillings-control">
+        <h4><i class="fa-solid fa-s"></i> Shillings</h4>
+        <div class="control-buttons">
+          <button type="button" class="subtract-currency" data-type="shillings" data-amount="1">-1</button>
+          <button type="button" class="add-currency" data-type="shillings" data-amount="1">+1</button>
+          <button type="button" class="add-currency" data-type="shillings" data-amount="5">+5</button>
+          <button type="button" class="add-currency" data-type="shillings" data-amount="10">+10</button>
+        </div>
+      </div>
+      <div class="control-section pence-control">
+        <h4><i class="fa-solid fa-d"></i> Pence</h4>
+        <div class="control-buttons">
+          <button type="button" class="subtract-currency" data-type="pence" data-amount="1">-1</button>
+          <button type="button" class="add-currency" data-type="pence" data-amount="1">+1</button>
+          <button type="button" class="add-currency" data-type="pence" data-amount="6">+6</button>
+          <button type="button" class="add-currency" data-type="pence" data-amount="12">+12</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Utility Buttons -->
+    <div class="utility-section">
+      <button type="button" class="convert-currency utility-btn">
+        <i class="fa-solid fa-arrows-rotate"></i> Normalize Currency
+      </button>
+      <button type="button" class="roll-wealth-check utility-btn">
+        <i class="fa-solid fa-dice"></i> Wealth Check
+      </button>
+    </div>
+
+    <!-- Common Prices Reference -->
+    <div class="prices-section">
+      <div class="section-header">
+        <i class="fa-solid fa-tag"></i>
+        <h3>Common Prices</h3>
+      </div>
+      <div class="prices-grid">
+        {{#each commonPrices}}
+        <div class="price-entry" data-cost="{{this.cost}}" data-name="{{this.name}}">
+          <span class="price-name">{{this.name}}</span>
+          <span class="price-cost">{{this.cost}}</span>
+          <button type="button" class="quick-transaction" data-cost="{{this.cost}}" data-name="{{this.name}}">
+            <i class="fa-solid fa-shopping-cart"></i>
+          </button>
+        </div>
+        {{/each}}
+      </div>
+    </div>
+
+    <!-- Currency Reference -->
+    <div class="reference-section">
+      <div class="section-header">
+        <i class="fa-solid fa-info-circle"></i>
+        <h3>Currency Reference</h3>
+      </div>
+      <div class="reference-content">
+        <p><strong>1 Pound (£)</strong> = 20 Shillings = 240 Pence</p>
+        <p><strong>1 Shilling (s)</strong> = 12 Pence</p>
+        <p><strong>1 Penny (d)</strong> = Base unit</p>
+        <hr>
+        <p><em>A working-class family earns about £1-2 per week</em></p>
+        <p><em>A middle-class professional earns about £150-500 per year</em></p>
+      </div>
+    </div>
+  </section>
+  {{else}}
+  <section class="hub-content no-actor-content">
+    <div class="no-actor-message">
+      <i class="fa-solid fa-user-slash"></i>
+      <p>Select a token or assign a character to manage wealth.</p>
+    </div>
+  </section>
+  {{/if}}
+</div>

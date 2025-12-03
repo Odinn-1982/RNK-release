@@ -3,7 +3,8 @@
  *
  * Sheet for animates, vampires, thropes, and other creatures
  */
-export declare class UMCreatureSheet extends ActorSheet {
+declare const ActorSheetBase: typeof ActorSheet;
+export declare class UMCreatureSheet extends ActorSheetBase {
     static get defaultOptions(): any;
     getData(options?: Partial<ActorSheet.Options>): ActorSheet.Data;
     activateListeners(html: JQuery<HTMLElement>): void;
@@ -13,3 +14,4 @@ export declare class UMCreatureSheet extends ActorSheet {
     private _onItemDelete;
     private _onItemRoll;
 }
+export {};

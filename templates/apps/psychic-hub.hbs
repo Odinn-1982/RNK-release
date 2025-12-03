@@ -1,0 +1,111 @@
+<div class="psychic-hub-container">
+  <header class="hub-header psychic-header">
+    <div class="header-icon">
+      <i class="fa-solid fa-brain"></i>
+    </div>
+    <div class="header-title">
+      <h2>Psychic Hub</h2>
+      {{#if actor}}
+      <span class="actor-name">{{actor.name}}</span>
+      {{else}}
+      <span class="no-actor">No character selected</span>
+      {{/if}}
+    </div>
+    <button class="hub-close" type="button"><i class="fa-solid fa-times"></i></button>
+  </header>
+
+  {{#if actor}}
+  <section class="hub-content">
+    <!-- Mental Health Status -->
+    <div class="status-bar mental-status">
+      <div class="status-icon"><i class="fa-solid fa-brain"></i></div>
+      <div class="status-meter">
+        <div class="meter-bar">
+          <div class="meter-fill mental-fill" style="width: {{mentalHealth.percent}}%"></div>
+          <span class="meter-text">Mental: {{mentalHealth.value}} / {{mentalHealth.max}}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Devotions Grid -->
+    <div class="devotions-section">
+      <div class="section-header">
+        <i class="fa-solid fa-eye"></i>
+        <h3>Devotions</h3>
+      </div>
+      <div class="devotions-grid">
+        {{#each devotions}}
+        <div class="devotion-card {{@key}}" data-devotion="{{@key}}">
+          <div class="devotion-icon">
+            <i class="fa-solid {{this.icon}}"></i>
+          </div>
+          <div class="devotion-name">{{this.name}}</div>
+          <button type="button" class="roll-devotion" data-devotion="{{@key}}">
+            <i class="fa-solid fa-dice"></i>
+          </button>
+        </div>
+        {{/each}}
+      </div>
+    </div>
+
+    <!-- Powers by Devotion -->
+    <div class="powers-section">
+      <div class="section-header">
+        <i class="fa-solid fa-bolt"></i>
+        <h3>Psychic Powers</h3>
+      </div>
+      
+      {{#each powersByDevotion}}
+      {{#if this.length}}
+      <div class="devotion-powers">
+        <h4 class="devotion-label">{{@key}}</h4>
+        <ul class="power-list">
+          {{#each this}}
+          <li class="power-entry" data-power-id="{{this.id}}">
+            <div class="power-info">
+              <img src="{{this.img}}" alt="{{this.name}}" class="power-icon">
+              <div class="power-details">
+                <span class="power-name">{{this.name}}</span>
+                <span class="power-cost">
+                  <i class="fa-solid fa-brain"></i> {{this.system.mentalCost}}
+                  {{#if this.system.corruptionCost}}
+                  <i class="fa-solid fa-biohazard"></i> {{this.system.corruptionCost}}
+                  {{/if}}
+                </span>
+              </div>
+            </div>
+            <div class="power-actions">
+              <button type="button" class="activate-power action-btn" data-power-id="{{this.id}}">
+                <i class="fa-solid fa-play"></i>
+              </button>
+              <button type="button" class="view-power action-btn" data-power-id="{{this.id}}">
+                <i class="fa-solid fa-eye"></i>
+              </button>
+            </div>
+          </li>
+          {{/each}}
+        </ul>
+      </div>
+      {{/if}}
+      {{/each}}
+
+      {{#unless powers.length}}
+      <p class="empty-list">No psychic powers</p>
+      {{/unless}}
+    </div>
+
+    <!-- Corruption Warning -->
+    <div class="corruption-warning">
+      <i class="fa-solid fa-triangle-exclamation"></i>
+      <span>Mental Corruption: {{corruption.mental.value}}/{{corruption.mental.threshold}}</span>
+    </div>
+  </section>
+  {{else}}
+  <section class="hub-content no-actor-content">
+    <div class="no-actor-message">
+      <i class="fa-solid fa-user-slash"></i>
+      <p>Select a token or assign a character to manage psychic powers.</p>
+    </div>
+  </section>
+  {{/if}}
+</div>

@@ -1,0 +1,135 @@
+<div class="corruption-hub-container">
+  <header class="hub-header corruption-header">
+    <div class="header-icon">
+      <i class="fa-solid fa-biohazard"></i>
+    </div>
+    <div class="header-title">
+      <h2>Corruption Hub</h2>
+      {{#if actor}}
+      <span class="actor-name">{{actor.name}}</span>
+      {{else}}
+      <span class="no-actor">No character selected</span>
+      {{/if}}
+    </div>
+    <button class="hub-close" type="button"><i class="fa-solid fa-times"></i></button>
+  </header>
+
+  {{#if actor}}
+  <section class="hub-content">
+    <!-- Physical Corruption -->
+    <div class="corruption-section physical">
+      <div class="section-header">
+        <i class="fa-solid fa-skull"></i>
+        <h3>Physical Corruption</h3>
+      </div>
+      <div class="corruption-meter">
+        <div class="meter-bar">
+          <div class="meter-fill physical-fill" style="width: {{corruption.physical.percent}}%"></div>
+          <span class="meter-text">{{corruption.physical.value}} / {{corruption.physical.threshold}}</span>
+        </div>
+      </div>
+      <div class="corruption-controls">
+        <div class="control-group">
+          <span class="label">Add:</span>
+          {{#each quickAmounts}}
+          <button type="button" class="add-physical-corruption quick-btn" data-amount="{{this}}">+{{this}}</button>
+          {{/each}}
+        </div>
+        <div class="control-group">
+          <span class="label">Remove:</span>
+          {{#each quickAmounts}}
+          <button type="button" class="remove-physical-corruption quick-btn negative" data-amount="{{this}}">-{{this}}</button>
+          {{/each}}
+        </div>
+      </div>
+      <button type="button" class="roll-affliction-check roll-btn physical-roll" data-type="physical">
+        <i class="fa-solid fa-dice"></i> Roll Affliction Check
+      </button>
+    </div>
+
+    <!-- Mental Corruption -->
+    <div class="corruption-section mental">
+      <div class="section-header">
+        <i class="fa-solid fa-brain"></i>
+        <h3>Mental Corruption</h3>
+      </div>
+      <div class="corruption-meter">
+        <div class="meter-bar">
+          <div class="meter-fill mental-fill" style="width: {{corruption.mental.percent}}%"></div>
+          <span class="meter-text">{{corruption.mental.value}} / {{corruption.mental.threshold}}</span>
+        </div>
+      </div>
+      <div class="corruption-controls">
+        <div class="control-group">
+          <span class="label">Add:</span>
+          {{#each quickAmounts}}
+          <button type="button" class="add-mental-corruption quick-btn" data-amount="{{this}}">+{{this}}</button>
+          {{/each}}
+        </div>
+        <div class="control-group">
+          <span class="label">Remove:</span>
+          {{#each quickAmounts}}
+          <button type="button" class="remove-mental-corruption quick-btn negative" data-amount="{{this}}">-{{this}}</button>
+          {{/each}}
+        </div>
+      </div>
+      <button type="button" class="roll-affliction-check roll-btn mental-roll" data-type="mental">
+        <i class="fa-solid fa-dice"></i> Roll Disorder Check
+      </button>
+    </div>
+
+    <!-- Afflictions List -->
+    <div class="afflictions-section">
+      <div class="section-header">
+        <i class="fa-solid fa-disease"></i>
+        <h3>Afflictions</h3>
+      </div>
+      {{#if afflictions.length}}
+      <ul class="item-list">
+        {{#each afflictions}}
+        <li class="item-entry affliction-entry" data-item-id="{{this.id}}">
+          <img src="{{this.img}}" alt="{{this.name}}" class="item-icon">
+          <span class="item-name">{{this.name}}</span>
+          <button type="button" class="view-affliction item-btn" data-item-id="{{this.id}}">
+            <i class="fa-solid fa-eye"></i>
+          </button>
+        </li>
+        {{/each}}
+      </ul>
+      {{else}}
+      <p class="empty-list">No afflictions yet</p>
+      {{/if}}
+    </div>
+
+    <!-- Disorders List -->
+    <div class="disorders-section">
+      <div class="section-header">
+        <i class="fa-solid fa-head-side-virus"></i>
+        <h3>Disorders</h3>
+      </div>
+      {{#if disorders.length}}
+      <ul class="item-list">
+        {{#each disorders}}
+        <li class="item-entry disorder-entry" data-item-id="{{this.id}}">
+          <img src="{{this.img}}" alt="{{this.name}}" class="item-icon">
+          <span class="item-name">{{this.name}}</span>
+          <button type="button" class="view-disorder item-btn" data-item-id="{{this.id}}">
+            <i class="fa-solid fa-eye"></i>
+          </button>
+        </li>
+        {{/each}}
+      </ul>
+      {{else}}
+      <p class="empty-list">No disorders yet</p>
+      {{/if}}
+    </div>
+  </section>
+  {{else}}
+  <section class="hub-content no-actor-content">
+    <div class="no-actor-message">
+      <i class="fa-solid fa-user-slash"></i>
+      <p>Select a token or assign a character to view corruption status.</p>
+    </div>
+  </section>
+  {{/if}}
+</div>

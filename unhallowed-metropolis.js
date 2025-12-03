@@ -61,7 +61,7 @@ const u = {
     gambling: { label: "UM.Skills.Gambling", attribute: "wit" },
     // Intellect-based skills
     academics: { label: "UM.Skills.Academics", attribute: "intellect" },
-    bureauracy: { label: "UM.Skills.Bureaucracy", attribute: "intellect" },
+    bureaucracy: { label: "UM.Skills.Bureaucracy", attribute: "intellect" },
     criminology: { label: "UM.Skills.Criminology", attribute: "intellect" },
     demolitions: { label: "UM.Skills.Demolitions", attribute: "intellect" },
     engineering: { label: "UM.Skills.Engineering", attribute: "intellect" },
@@ -237,8 +237,8 @@ const u = {
     shillings: "UM.Currency.Shillings",
     pence: "UM.Currency.Pence"
   }
-};
-class B extends ActorSheet {
+}, te = foundry.appv1?.sheets?.ActorSheet ?? ActorSheet;
+class ae extends te {
   static get defaultOptions() {
     return mergeObject(super.defaultOptions, {
       classes: ["unhallowed-metropolis", "sheet", "actor", "character"],
@@ -425,9 +425,9 @@ class B extends ActorSheet {
    */
   async _onCorruptionClick(e) {
     e.preventDefault();
-    const t = e.currentTarget, a = parseInt(t.dataset.index || "0"), i = $(t).closest(".corruption-track").data("type"), l = this.actor.system.corruption[i].value, o = a < l ? a : a + 1;
+    const t = e.currentTarget, a = parseInt(t.dataset.index || "0"), i = $(t).closest(".corruption-track").data("type"), o = this.actor.system.corruption[i].value, l = a < o ? a : a + 1;
     await this.actor.update({
-      [`system.corruption.${i}.value`]: o
+      [`system.corruption.${i}.value`]: l
     });
   }
   /**
@@ -472,7 +472,7 @@ class B extends ActorSheet {
     e.preventDefault();
     const a = $(e.currentTarget).closest(".item").data("item-id"), s = this.actor.items.get(a);
     if (!s) return;
-    const i = s.name, n = s.system?.discipline || "Unknown", l = s.system?.cost || 0, o = s.system?.rules || s.system?.description || "", m = `
+    const i = s.name, n = s.system?.discipline || "Unknown", o = s.system?.cost || 0, l = s.system?.rules || s.system?.description || "", h = `
       <div class="um-power-card">
         <div class="power-header">
           <img src="${s.img}" alt="${i}" width="36" height="36"/>
@@ -482,19 +482,20 @@ class B extends ActorSheet {
           </div>
         </div>
         <div class="power-details">
-          ${l ? `<p><strong>Cost:</strong> ${l} Instability</p>` : ""}
-          ${o ? `<div class="power-rules">${o}</div>` : ""}
+          ${o ? `<p><strong>Cost:</strong> ${o} Instability</p>` : ""}
+          ${l ? `<div class="power-rules">${l}</div>` : ""}
         </div>
       </div>
     `;
     await ChatMessage.create({
       speaker: ChatMessage.getSpeaker({ actor: this.actor }),
-      content: m,
+      content: h,
       flavor: `${this.actor.name} activates a psychic power`
     });
   }
 }
-class V extends ActorSheet {
+const se = foundry.appv1?.sheets?.ActorSheet ?? ActorSheet;
+class ie extends se {
   static get defaultOptions() {
     return mergeObject(super.defaultOptions, {
       classes: ["unhallowed-metropolis", "sheet", "actor", "npc"],
@@ -554,7 +555,8 @@ class V extends ActorSheet {
     s && typeof s.roll == "function" && await s.roll();
   }
 }
-class q extends ActorSheet {
+const ne = foundry.appv1?.sheets?.ActorSheet ?? ActorSheet;
+class oe extends ne {
   static get defaultOptions() {
     return mergeObject(super.defaultOptions, {
       classes: ["unhallowed-metropolis", "sheet", "actor", "creature"],
@@ -614,7 +616,7 @@ class q extends ActorSheet {
     s && typeof s.roll == "function" && await s.roll();
   }
 }
-class F extends Actor {
+class Z extends Actor {
   /**
    * Prepare base data - called before embedded documents
    */
@@ -689,26 +691,26 @@ class F extends Actor {
   _prepareCreatureData(e, t) {
     const a = e.attributes, s = t === "vampire" ? 3 : 2.5, i = Math.floor((a.vitality?.value || 3) * s + 10);
     e.derived.health.max = i, e.derived.health.value > i && (e.derived.health.value = i);
-    const n = t === "vampire" ? 3 : 2, l = Math.floor((a.will?.value || 3) * n + 10);
-    e.derived.mentalHealth.max = l, e.derived.mentalHealth.value > l && (e.derived.mentalHealth.value = l), e.derived.initiative = (a.wit?.value || 2) + (a.coordination?.value || 2);
-    const o = a.coordination?.value || 2;
-    o <= 1 ? e.derived.actions = 1 : o <= 3 ? e.derived.actions = 2 : o <= 4 ? e.derived.actions = 3 : e.derived.actions = 4, t === "vampire" && (e.bloodPool = e.bloodPool || { value: 10, max: 10 }, e.bloodPool.max = (a.vitality?.value || 3) * 3 + 5), e.derived.movement = (a.coordination?.value || 2) + 4;
+    const n = t === "vampire" ? 3 : 2, o = Math.floor((a.will?.value || 3) * n + 10);
+    e.derived.mentalHealth.max = o, e.derived.mentalHealth.value > o && (e.derived.mentalHealth.value = o), e.derived.initiative = (a.wit?.value || 2) + (a.coordination?.value || 2);
+    const l = a.coordination?.value || 2;
+    l <= 1 ? e.derived.actions = 1 : l <= 3 ? e.derived.actions = 2 : l <= 4 ? e.derived.actions = 3 : e.derived.actions = 4, t === "vampire" && (e.bloodPool = e.bloodPool || { value: 10, max: 10 }, e.bloodPool.max = (a.vitality?.value || 3) * 3 + 5), e.derived.movement = (a.coordination?.value || 2) + 4;
   }
   /**
    * Roll an attribute check
    */
   async rollAttribute(e, t = {}) {
-    const a = this.system, s = a.attributes[e]?.value || 2, i = a.attributes[e]?.modifier || 0, n = t.bonus || 0, l = `2d10 + ${s} + ${i} + ${n}`, o = new Roll(l);
-    return await o.evaluate(), await this._createRollMessage(o, {
+    const a = this.system, s = a.attributes[e]?.value || 2, i = a.attributes[e]?.modifier || 0, n = t.bonus || 0, o = `2d10 + ${s} + ${i} + ${n}`, l = new Roll(o);
+    return await l.evaluate(), await this._createRollMessage(l, {
       title: game.i18n.localize(u.attributes[e]),
       targetNumber: t.targetNumber
-    }), o;
+    }), l;
   }
   /**
    * Roll a skill check
    */
   async rollSkill(e, t = {}) {
-    const a = this.system, s = u.skills[e], i = a.skills[e]?.value || 0, n = s.attribute, l = a.attributes[n]?.value || 2, o = t.bonus || 0, m = `2d10 + ${l} + ${i} + ${o}`, c = new Roll(m);
+    const a = this.system, s = u.skills[e], i = a.skills[e]?.value || 0, n = s.attribute, o = a.attributes[n]?.value || 2, l = t.bonus || 0, h = `2d10 + ${o} + ${i} + ${l}`, c = new Roll(h);
     return await c.evaluate(), await this._createRollMessage(c, {
       title: `${game.i18n.localize(s.label)} (${game.i18n.localize(u.attributes[n])})`,
       targetNumber: t.targetNumber
@@ -727,9 +729,9 @@ class F extends Actor {
   async _createRollMessage(e, t) {
     const a = e.total || 0, s = t.targetNumber || 11;
     let i = "failure", n = "Failure";
-    const l = a - s;
-    l >= 10 ? (i = "critical-success", n = "Critical Success!") : l >= 5 ? (i = "exceptional-success", n = "Exceptional Success") : l >= 0 ? (i = "success", n = "Success") : l >= -5 ? (i = "failure", n = "Failure") : (i = "critical-failure", n = "Critical Failure!");
-    const o = `
+    const o = a - s;
+    o >= 10 ? (i = "critical-success", n = "Critical Success!") : o >= 5 ? (i = "exceptional-success", n = "Exceptional Success") : o >= 0 ? (i = "success", n = "Success") : o >= -5 ? (i = "failure", n = "Failure") : (i = "critical-failure", n = "Critical Failure!");
+    const l = `
       <div class="um-roll-card">
         <h3>${t.title}</h3>
         <div class="roll-result ${i}">
@@ -739,13 +741,13 @@ class F extends Actor {
         </div>
         <div class="roll-details">
           <span class="formula">${e.formula}</span>
-          <span class="dice">${e.dice.map((m) => m.results.map((c) => c.result).join(", ")).join(" + ")}</span>
+          <span class="dice">${e.dice.map((h) => h.results.map((c) => c.result).join(", ")).join(" + ")}</span>
         </div>
       </div>
     `;
     await ChatMessage.create({
       speaker: ChatMessage.getSpeaker({ actor: this }),
-      content: o,
+      content: l,
       roll: e,
       type: CONST.CHAT_MESSAGE_STYLES.OTHER
     });
@@ -789,7 +791,7 @@ class F extends Actor {
     });
   }
 }
-class G extends Item {
+class ee extends Item {
   /**
    * Prepare base data
    */
@@ -850,9 +852,9 @@ class G extends Item {
       ui.notifications?.error(`Unknown skill: ${s}`);
       return;
     }
-    const n = i.attribute, l = t.system.attributes[n]?.value || 2, o = t.system.skills[s]?.value || 0, m = `2d10 + ${l} + ${o}`, c = new Roll(m);
+    const n = i.attribute, o = t.system.attributes[n]?.value || 2, l = t.system.skills[s]?.value || 0, h = `2d10 + ${o} + ${l}`, c = new Roll(h);
     await c.evaluate();
-    const p = await renderTemplate("systems/unhallowed-metropolis/templates/chat/weapon-roll.hbs", {
+    const f = await renderTemplate("systems/unhallowed-metropolis/templates/chat/weapon-roll.hbs", {
       actor: t,
       item: this,
       roll: c,
@@ -866,7 +868,7 @@ class G extends Item {
     });
     await ChatMessage.create({
       speaker: ChatMessage.getSpeaker({ actor: t }),
-      content: p,
+      content: f,
       roll: c,
       type: CONST.CHAT_MESSAGE_STYLES.OTHER
     }), a.weaponType === "ranged" && a.currentAmmo > 0 && await this.update({
@@ -928,7 +930,8 @@ class G extends Item {
     }));
   }
 }
-class W extends ItemSheet {
+const re = foundry.appv1?.sheets?.ItemSheet ?? ItemSheet;
+class le extends re {
   static get defaultOptions() {
     return mergeObject(super.defaultOptions, {
       classes: ["unhallowed-metropolis", "sheet", "item"],
@@ -979,7 +982,7 @@ class W extends ItemSheet {
     super.activateListeners(e), this.isEditable;
   }
 }
-function j() {
+function ce() {
   Hooks.on("combatStart", async (r) => {
     console.log("UM | Combat started");
   }), Hooks.on("preCreateCombatant", (r, e, t, a) => {
@@ -987,21 +990,21 @@ function j() {
     s && (s.system?.derived?.initiative, r.updateSource({ initiative: null }));
   });
 }
-const O = class O {
+const G = class G {
   /**
    * Apply corruption to an actor
    */
   static async applyCorruption(e, t) {
-    const i = e.system.corruption, n = i[t.type].value, l = i[t.type].threshold, o = n + t.amount;
+    const i = e.system.corruption, n = i[t.type].value, o = i[t.type].threshold, l = n + t.amount;
     return await e.update({
-      [`system.corruption.${t.type}.value`]: o
-    }), t.silent || await this.createCorruptionMessage(e, t, o, l), o >= l ? await this.triggerAfflictionCheck(e, t.type) : null;
+      [`system.corruption.${t.type}.value`]: l
+    }), t.silent || await this.createCorruptionMessage(e, t, l, o), l >= o ? await this.triggerAfflictionCheck(e, t.type) : null;
   }
   /**
    * Create a chat message for corruption gain
    */
   static async createCorruptionMessage(e, t, a, s) {
-    const i = t.type === "physical" ? "Physical" : "Mental", n = Math.round(a / s * 100), l = n >= 100 ? "danger" : n >= 75 ? "warning" : "", o = `
+    const i = t.type === "physical" ? "Physical" : "Mental", n = Math.round(a / s * 100), o = n >= 100 ? "danger" : n >= 75 ? "warning" : "", l = `
       <div class="um-corruption-card ${t.type}">
         <header>
           <h3><i class="fas fa-${t.type === "physical" ? "biohazard" : "brain"}"></i> ${i} Corruption</h3>
@@ -1010,7 +1013,7 @@ const O = class O {
           <div class="source">${t.source || "Unknown Source"}</div>
           <div class="amount">+${t.amount} Corruption</div>
           <div class="progress-container">
-            <div class="progress-bar ${l}" style="width: ${Math.min(n, 100)}%"></div>
+            <div class="progress-bar ${o}" style="width: ${Math.min(n, 100)}%"></div>
             <span class="progress-text">${a} / ${s}</span>
           </div>
           ${a >= s ? `
@@ -1024,7 +1027,7 @@ const O = class O {
     `;
     await ChatMessage.create({
       speaker: ChatMessage.getSpeaker({ actor: e }),
-      content: o,
+      content: l,
       type: CONST.CHAT_MESSAGE_STYLES.OTHER
     });
   }
@@ -1034,22 +1037,22 @@ const O = class O {
   static async triggerAfflictionCheck(e, t) {
     const a = e.items, s = Array.from(a.values()).filter((c) => c.type === "affliction" && c.system.corruptionType === t).length, i = new Roll("1d10");
     await i.evaluate();
-    const n = i.total || 1, l = Math.max(1, 6 - s), o = n <= l;
-    let m = "minor";
-    return n <= 2 ? m = "severe" : n <= 4 && (m = "moderate"), await e.update({
+    const n = i.total || 1, o = Math.max(1, 6 - s), l = n <= o;
+    let h = "minor";
+    return n <= 2 ? h = "severe" : n <= 4 && (h = "moderate"), await e.update({
       [`system.corruption.${t}.value`]: 0
     }), await this.createAfflictionCheckMessage(e, {
       type: t,
       roll: n,
-      threshold: l,
-      triggered: o,
-      severity: m,
+      threshold: o,
+      triggered: l,
+      severity: h,
       existingAfflictions: s
     }), {
-      triggered: o,
-      severity: m,
+      triggered: l,
+      severity: h,
       roll: n,
-      threshold: l,
+      threshold: o,
       existingAfflictions: s
     };
   }
@@ -1129,7 +1132,7 @@ const O = class O {
     };
   }
 };
-O.PHYSICAL_SOURCES = {
+G.PHYSICAL_SOURCES = {
   animateBite: { amount: 1, label: "Animate Bite" },
   vampireFeed: { amount: 2, label: "Vampire Feeding" },
   plagueExposure: { amount: 1, label: "Plague Exposure" },
@@ -1137,7 +1140,7 @@ O.PHYSICAL_SOURCES = {
   galvanicSurgery: { amount: 2, label: "Galvanic Surgery" },
   dhampirPowers: { amount: 1, label: "Dhampir Power Use" },
   necroticWound: { amount: 1, label: "Necrotic Wound" }
-}, O.MENTAL_SOURCES = {
+}, G.MENTAL_SOURCES = {
   witnessHorror: { amount: 1, label: "Witness Horror" },
   killInnocent: { amount: 2, label: "Kill an Innocent" },
   useDeadlyForce: { amount: 1, label: "Unnecessary Deadly Force" },
@@ -1147,49 +1150,49 @@ O.PHYSICAL_SOURCES = {
   consortUndead: { amount: 1, label: "Consort with Undead" },
   darkRitual: { amount: 2, label: "Perform Dark Ritual" }
 };
-let b = O;
-const x = class x {
+let y = G;
+const Q = class Q {
   /**
    * Activate a psychic power
    */
   static async activatePower(e, t, a = {}) {
-    const s = e, i = t.system, n = s.system, l = this.DEVOTIONS[i.devotion];
-    if (!l)
+    const s = e, i = t.system, n = s.system, o = this.DEVOTIONS[i.devotion];
+    if (!o)
       throw new Error(`Unknown devotion: ${i.devotion}`);
-    const o = n.skills[l.skill]?.value || 0, m = n.attributes[l.attribute]?.value || 2, c = a.modifier || 0, p = a.targetNumber || i.targetNumber || 15, U = `2d10 + ${m} + ${o} + ${c}`, M = new Roll(U);
-    await M.evaluate();
-    const v = M.total || 0, g = M.dice[0].results.map((R) => R.result), C = g[0] === 10 && g[1] === 10, d = g[0] === 1 && g[1] === 1, y = v >= p, S = Math.abs(v - p), N = Math.floor(S / 4) + (y ? 1 : 0);
-    let h = i.mentalCost || 1;
-    d && (h *= 2), C && y && (h = 0);
-    const f = n.derived.mentalHealth.value;
+    const l = n.skills[o.skill]?.value || 0, h = n.attributes[o.attribute]?.value || 2, c = a.modifier || 0, f = a.targetNumber || i.targetNumber || 15, U = `2d10 + ${h} + ${l} + ${c}`, C = new Roll(U);
+    await C.evaluate();
+    const M = C.total || 0, v = C.dice[0].results.map((O) => O.result), S = v[0] === 10 && v[1] === 10, d = v[0] === 1 && v[1] === 1, w = M >= f, D = Math.abs(M - f), N = Math.floor(D / 4) + (w ? 1 : 0);
+    let m = i.mentalCost || 1;
+    d && (m *= 2), S && w && (m = 0);
+    const g = n.derived.mentalHealth.value;
     await e.update({
-      "system.derived.mentalHealth.value": Math.max(0, f - h)
+      "system.derived.mentalHealth.value": Math.max(0, g - m)
     });
-    let T = !1, P = 0;
-    (d || i.corruptionRisk && !y) && (P = d ? 2 : 1, T = !0, await b.applyCorruption(e, {
+    let T = !1, R = 0;
+    (d || i.corruptionRisk && !w) && (R = d ? 2 : 1, T = !0, await y.applyCorruption(e, {
       type: "mental",
-      amount: P,
+      amount: R,
       source: `Psychic Overreach: ${t.name}`
     }));
-    const H = {
-      success: y,
-      roll: v,
-      target: p,
+    const I = {
+      success: w,
+      roll: M,
+      target: f,
       degrees: N,
-      critical: C,
+      critical: S,
       botch: d,
-      mentalCost: h,
+      mentalCost: m,
       corruptionGained: T,
-      corruptionAmount: P
+      corruptionAmount: R
     };
-    return await this.createPowerActivationMessage(e, t, H, g), H;
+    return await this.createPowerActivationMessage(e, t, I, v), I;
   }
   /**
    * Create chat message for power activation
    */
   static async createPowerActivationMessage(e, t, a, s) {
-    const i = t.system, n = this.DEVOTIONS[i.devotion], l = a.critical ? "critical-success" : a.botch ? "critical-failure" : a.success ? "success" : "failure", o = `
-      <div class="um-power-card ${l}">
+    const i = t.system, n = this.DEVOTIONS[i.devotion], o = a.critical ? "critical-success" : a.botch ? "critical-failure" : a.success ? "success" : "failure", l = `
+      <div class="um-power-card ${o}">
         <header>
           <h3><i class="fas fa-hand-sparkles"></i> ${t.name}</h3>
           <span class="devotion">${n?.label || i.devotion}</span>
@@ -1207,7 +1210,7 @@ const x = class x {
           </div>
         </div>
 
-        <div class="outcome ${l}">
+        <div class="outcome ${o}">
           ${a.critical ? '<i class="fas fa-star"></i> CRITICAL SUCCESS!' : a.botch ? '<i class="fas fa-skull-crossbones"></i> BOTCH!' : a.success ? `<i class="fas fa-check"></i> Success (${a.degrees} Degree${a.degrees > 1 ? "s" : ""})` : '<i class="fas fa-times"></i> Failure'}
         </div>
 
@@ -1236,7 +1239,7 @@ const x = class x {
     `;
     await ChatMessage.create({
       speaker: ChatMessage.getSpeaker({ actor: e }),
-      content: o,
+      content: l,
       type: CONST.CHAT_MESSAGE_STYLES.OTHER
     });
   }
@@ -1279,7 +1282,7 @@ const x = class x {
     return a;
   }
 };
-x.DEVOTIONS = {
+Q.DEVOTIONS = {
   empathy: {
     label: "Empathy",
     skill: "empathy",
@@ -1317,7 +1320,7 @@ x.DEVOTIONS = {
     description: "Read and transmit thoughts"
   }
 };
-let D = x;
+let k = Q;
 const A = class A {
   /**
    * Convert currency to total pence for calculations
@@ -1459,19 +1462,19 @@ const A = class A {
         newBalance: this.getBalance(e),
         message: `${e.name} cannot afford this transfer!`
       };
-    const n = e.system.currency, l = this.subtract(n, a);
+    const n = e.system.currency, o = this.subtract(n, a);
     await e.update({
-      "system.currency.pounds": l.pounds,
-      "system.currency.shillings": l.shillings,
-      "system.currency.pence": l.pence
+      "system.currency.pounds": o.pounds,
+      "system.currency.shillings": o.shillings,
+      "system.currency.pence": o.pence
     });
-    const m = t.system.currency, c = this.add(m, a);
+    const h = t.system.currency, c = this.add(h, a);
     await t.update({
       "system.currency.pounds": c.pounds,
       "system.currency.shillings": c.shillings,
       "system.currency.pence": c.pence
     });
-    const p = `
+    const f = `
       <div class="um-transaction-card transfer">
         <header>
           <h3><i class="fas fa-exchange-alt"></i> Fund Transfer</h3>
@@ -1488,11 +1491,11 @@ const A = class A {
       </div>
     `;
     return await ChatMessage.create({
-      content: p,
+      content: f,
       type: CONST.CHAT_MESSAGE_STYLES.OTHER
     }), {
       success: !0,
-      newBalance: l,
+      newBalance: o,
       message: `Transferred ${this.format(a)} to ${t.name}`
     };
   }
@@ -1526,57 +1529,57 @@ A.PENCE_PER_SHILLING = 12, A.SHILLINGS_PER_POUND = 20, A.PENCE_PER_POUND = 240, 
   // Ammunition
   bulletBox: { pounds: 0, shillings: 2, pence: 0, label: "Box of Bullets (20)" }
 };
-let k = A;
-const _ = class _ {
+let p = A;
+const H = class H {
   /**
    * Make an attack roll
    */
   static async attack(e, t = {}) {
     const s = e.system, i = t.weapon;
-    let n = "brawl", l = "vitality";
+    let n = "brawl", o = "vitality";
     if (i) {
-      const f = i.system.weaponType;
-      f === "ranged" ? (n = "firearms", l = "coordination") : f === "melee" ? (n = "melee", l = "coordination") : f === "thrown" && (n = "athletics", l = "coordination");
+      const g = i.system.weaponType;
+      g === "ranged" ? (n = "firearms", o = "coordination") : g === "melee" ? (n = "melee", o = "coordination") : g === "thrown" && (n = "athletics", o = "coordination");
     }
-    const o = s.skills[n]?.value || 0, m = s.attributes[l]?.value || 2;
+    const l = s.skills[n]?.value || 0, h = s.attributes[o]?.value || 2;
     let c = t.modifier || 0;
     t.calledShot && t.aimedLocation && (c += this.CALLED_SHOT_MODIFIERS[t.aimedLocation] || 0), t.aimed && (c += 2), t.autofire && (c -= 2);
-    const p = t.targetNumber || 15, U = `2d10 + ${m} + ${o} + ${c}`, M = new Roll(U);
-    await M.evaluate();
-    const v = M.total || 0, g = M.dice[0].results.map((f) => f.result), C = g[0] === 10 && g[1] === 10, d = g[0] === 1 && g[1] === 1, y = v >= p || C, S = Math.abs(v - p), N = y ? Math.floor(S / 4) + 1 : 0, h = {
-      success: y && !d,
-      roll: v,
-      target: p,
+    const f = t.targetNumber || 15, U = `2d10 + ${h} + ${l} + ${c}`, C = new Roll(U);
+    await C.evaluate();
+    const M = C.total || 0, v = C.dice[0].results.map((g) => g.result), S = v[0] === 10 && v[1] === 10, d = v[0] === 1 && v[1] === 1, w = M >= f || S, D = Math.abs(M - f), N = w ? Math.floor(D / 4) + 1 : 0, m = {
+      success: w && !d,
+      roll: M,
+      target: f,
       degrees: N,
-      critical: C,
+      critical: S,
       botch: d,
       effects: []
     };
-    if (h.success) {
-      if (t.calledShot && t.aimedLocation ? h.hitLocation = {
+    if (m.success) {
+      if (t.calledShot && t.aimedLocation ? m.hitLocation = {
         location: t.aimedLocation,
         label: t.aimedLocation.replace(/([A-Z])/g, " $1").trim(),
         roll: 0,
         modifier: this.CALLED_SHOT_MODIFIERS[t.aimedLocation] || 0
-      } : h.hitLocation = await this.rollHitLocation(), i) {
-        const f = i.system.damage || "1d10", T = Math.floor(s.attributes.vitality?.value / 2) || 0, H = `(${f} + ${T}) * ${C ? 2 : 1}`, R = new Roll(H);
-        if (await R.evaluate(), h.damage = R.total || 0, h.damageRoll = H, t.autofire && N > 1) {
-          const z = Math.min(N - 1, 3);
-          h.effects.push(`${z} additional hits!`), h.damage = h.damage * (1 + z);
+      } : m.hitLocation = await this.rollHitLocation(), i) {
+        const g = i.system.damage || "1d10", T = Math.floor(s.attributes.vitality?.value / 2) || 0, I = `(${g} + ${T}) * ${S ? 2 : 1}`, O = new Roll(I);
+        if (await O.evaluate(), m.damage = O.total || 0, m.damageRoll = I, t.autofire && N > 1) {
+          const J = Math.min(N - 1, 3);
+          m.effects.push(`${J} additional hits!`), m.damage = m.damage * (1 + J);
         }
       } else {
-        const f = s.attributes.vitality?.value || 2;
-        h.damage = f, h.damageRoll = `${f} (Vitality)`;
+        const g = s.attributes.vitality?.value || 2;
+        m.damage = g, m.damageRoll = `${g} (Vitality)`;
       }
-      if (h.damage !== void 0) {
-        const f = this.getWoundSeverity(h.damage);
-        if (h.hitLocation) {
-          const T = this.WOUND_EFFECTS[h.hitLocation.location]?.[f];
-          T && h.effects.push(...T.effects);
+      if (m.damage !== void 0) {
+        const g = this.getWoundSeverity(m.damage);
+        if (m.hitLocation) {
+          const T = this.WOUND_EFFECTS[m.hitLocation.location]?.[g];
+          T && m.effects.push(...T.effects);
         }
       }
     }
-    return C && h.effects.push("CRITICAL HIT! Double damage!"), d && h.effects.push("BOTCH! Weapon jam, dropped, or friendly fire!"), await this.createAttackMessage(e, h, i, t), h;
+    return S && m.effects.push("CRITICAL HIT! Double damage!"), d && m.effects.push("BOTCH! Weapon jam, dropped, or friendly fire!"), await this.createAttackMessage(e, m, i, t), m;
   }
   /**
    * Roll hit location
@@ -1602,16 +1605,16 @@ const _ = class _ {
    */
   static async applyDamage(e, t, a, s = {}) {
     const n = e.system;
-    let l = 0;
-    s.ignoreArmor || (l = this.getArmorAtLocation(e, a));
-    const o = Math.min(t, l), m = Math.max(0, t - l);
-    if (m > 0) {
+    let o = 0;
+    s.ignoreArmor || (o = this.getArmorAtLocation(e, a));
+    const l = Math.min(t, o), h = Math.max(0, t - o);
+    if (h > 0) {
       const c = n.derived.health.value;
       await e.update({
-        "system.derived.health.value": Math.max(0, c - m)
+        "system.derived.health.value": Math.max(0, c - h)
       });
     }
-    return { finalDamage: m, absorbed: o };
+    return { finalDamage: h, absorbed: l };
   }
   /**
    * Get total armor protection at a location
@@ -1623,8 +1626,8 @@ const _ = class _ {
       if (i.type !== "armor") continue;
       const n = i.system;
       if (!n.equipped) continue;
-      const l = n.coverage || {};
-      (l[t] || l.all) && (s += n.protection || 0);
+      const o = n.coverage || {};
+      (o[t] || o.all) && (s += n.protection || 0);
     }
     return s;
   }
@@ -1632,7 +1635,7 @@ const _ = class _ {
    * Create attack chat message
    */
   static async createAttackMessage(e, t, a, s) {
-    const i = a?.name || "Unarmed", n = t.critical ? "critical-success" : t.botch ? "critical-failure" : t.success ? "success" : "failure", l = `
+    const i = a?.name || "Unarmed", n = t.critical ? "critical-success" : t.botch ? "critical-failure" : t.success ? "success" : "failure", o = `
       <div class="um-attack-card ${n}">
         <header>
           <h3><i class="fas fa-crosshairs"></i> Attack: ${i}</h3>
@@ -1670,7 +1673,7 @@ const _ = class _ {
               <div class="effects">
                 <label>Effects:</label>
                 <ul>
-                  ${t.effects.map((o) => `<li>${o}</li>`).join("")}
+                  ${t.effects.map((l) => `<li>${l}</li>`).join("")}
                 </ul>
               </div>
             ` : ""}
@@ -1685,7 +1688,7 @@ const _ = class _ {
     `;
     await ChatMessage.create({
       speaker: ChatMessage.getSpeaker({ actor: e }),
-      content: l,
+      content: o,
       type: CONST.CHAT_MESSAGE_STYLES.OTHER
     });
   }
@@ -1706,7 +1709,7 @@ const _ = class _ {
     return this.attack(e, { weapon: a, targetNumber: 15 });
   }
 };
-_.HIT_LOCATIONS = {
+H.HIT_LOCATIONS = {
   1: { location: "head", label: "Head" },
   2: { location: "rightArm", label: "Right Arm" },
   3: { location: "rightArm", label: "Right Arm" },
@@ -1717,7 +1720,7 @@ _.HIT_LOCATIONS = {
   8: { location: "rightLeg", label: "Right Leg" },
   9: { location: "rightLeg", label: "Right Leg" },
   10: { location: "leftLeg", label: "Left Leg" }
-}, _.CALLED_SHOT_MODIFIERS = {
+}, H.CALLED_SHOT_MODIFIERS = {
   head: -6,
   torso: 0,
   rightArm: -4,
@@ -1727,7 +1730,7 @@ _.HIT_LOCATIONS = {
   hand: -8,
   eye: -10,
   heart: -8
-}, _.WOUND_THRESHOLDS = {
+}, H.WOUND_THRESHOLDS = {
   light: 1,
   // 1-4 damage
   serious: 5,
@@ -1736,7 +1739,7 @@ _.HIT_LOCATIONS = {
   // 9-12 damage
   mortal: 13
   // 13+ damage
-}, _.WOUND_EFFECTS = {
+}, H.WOUND_EFFECTS = {
   head: {
     light: { location: "head", severity: "light", penalty: -1, effects: ["Stunned for 1 round"] },
     serious: { location: "head", severity: "serious", penalty: -2, effects: ["Stunned 1d5 rounds", "Bleeding"] },
@@ -1774,8 +1777,8 @@ _.HIT_LOCATIONS = {
     mortal: { location: "leftLeg", severity: "mortal", penalty: -4, effects: ["Leg destroyed"] }
   }
 };
-let w = _;
-class I extends Application {
+let b = H;
+class _ extends Application {
   constructor() {
     super(...arguments), this.trackedNPCs = /* @__PURE__ */ new Map(), this.encounter = null, this.sessionNotes = "", this.partyCorruption = /* @__PURE__ */ new Map();
   }
@@ -1799,7 +1802,7 @@ class I extends Application {
     ) || [], t = game.actors?.filter(
       (i) => i.type === "npc" || i.type === "creature" || i.type === "animate" || i.type === "vampire"
     ) || [], a = e.map((i) => {
-      const n = b.getCorruptionStatus(i);
+      const n = y.getCorruptionStatus(i);
       return {
         id: i.id,
         name: i.name,
@@ -1827,12 +1830,12 @@ class I extends Application {
       encounter: this.encounter,
       sessionNotes: this.sessionNotes,
       targetNumbers: this.getTargetNumberReference(),
-      hitLocations: w.HIT_LOCATIONS,
+      hitLocations: b.HIT_LOCATIONS,
       corruptionSources: {
-        physical: b.getQuickCorruptionSources("physical"),
-        mental: b.getQuickCorruptionSources("mental")
+        physical: y.getQuickCorruptionSources("physical"),
+        mental: y.getQuickCorruptionSources("mental")
       },
-      commonPrices: k.COMMON_PRICES
+      commonPrices: p.COMMON_PRICES
     };
   }
   /**
@@ -1989,12 +1992,12 @@ class I extends Application {
     e.preventDefault();
     const t = [];
     for (const s of this.trackedNPCs.values()) {
-      const n = s.actor.system.derived.initiative || 4, l = new Roll("1d10");
-      await l.evaluate(), t.push({
+      const n = s.actor.system.derived.initiative || 4, o = new Roll("1d10");
+      await o.evaluate(), t.push({
         name: s.actor.name || "Unknown",
-        roll: l.total || 0,
+        roll: o.total || 0,
         init: n,
-        total: (l.total || 0) + n
+        total: (o.total || 0) + n
       });
     }
     t.sort((s, i) => i.total - s.total);
@@ -2025,7 +2028,7 @@ class I extends Application {
     const t = $(e.currentTarget).data("actor-id"), a = $(e.currentTarget).data("type"), s = game.actors?.get(t);
     if (s) {
       const i = await this._promptForNumber(`${a} Corruption Amount`, 1);
-      i > 0 && (await b.applyCorruption(s, {
+      i > 0 && (await y.applyCorruption(s, {
         type: a,
         amount: i,
         source: "GM Applied"
@@ -2038,7 +2041,7 @@ class I extends Application {
   async _onQuickCorruption(e) {
     e.preventDefault();
     const t = $(e.currentTarget).data("actor-id"), a = $(e.currentTarget).data("type"), s = $(e.currentTarget).data("source"), i = parseInt($(e.currentTarget).data("amount")), n = game.actors?.get(t);
-    n && i > 0 && (await b.applyCorruption(n, {
+    n && i > 0 && (await y.applyCorruption(n, {
       type: a,
       amount: i,
       source: s
@@ -2065,7 +2068,7 @@ class I extends Application {
    */
   async _onRollHitLocation(e) {
     e.preventDefault();
-    const t = await w.rollHitLocation();
+    const t = await b.rollHitLocation();
     await ChatMessage.create({
       content: `<div class="um-hit-location">
         <h3><i class="fas fa-crosshairs"></i> Hit Location</h3>
@@ -2172,7 +2175,7 @@ class I extends Application {
    * Static method to open the GM Hub
    */
   static open() {
-    const e = new I();
+    const e = new _();
     return e.render(!0), e;
   }
 }
@@ -2243,11 +2246,11 @@ class E extends Dialog {
           icon: '<i class="fas fa-dice"></i>',
           label: game.i18n.localize("UM.Dialog.Roll"),
           callback: (n) => {
-            const l = n.find("form")[0], o = new FormData(l);
+            const o = n.find("form")[0], l = new FormData(o);
             e.callback({
-              targetNumber: parseInt(o.get("targetNumber")) || 15,
-              modifier: parseInt(o.get("modifier")) || 0,
-              specialization: o.get("specialization") || "",
+              targetNumber: parseInt(l.get("targetNumber")) || 15,
+              modifier: parseInt(l.get("modifier")) || 0,
+              specialization: l.get("specialization") || "",
               cancelled: !1
             });
           }
@@ -2306,32 +2309,32 @@ class L extends Application {
     return `${this.actor.name} - PC Hub`;
   }
   getData() {
-    const t = this.actor.system, a = Object.entries(u.attributes).map(([d, y]) => ({
+    const t = this.actor.system, a = Object.entries(u.attributes).map(([d, w]) => ({
       key: d,
-      label: game.i18n.localize(y),
+      label: game.i18n.localize(w),
       value: t.attributes[d]?.value || 2,
       modifier: t.attributes[d]?.modifier || 0
     })), s = {};
     for (const d of Object.keys(u.attributes))
       s[d] = [];
-    for (const [d, y] of Object.entries(u.skills)) {
-      const S = y;
-      s[S.attribute].push({
+    for (const [d, w] of Object.entries(u.skills)) {
+      const D = w;
+      s[D.attribute].push({
         key: d,
-        label: game.i18n.localize(S.label),
+        label: game.i18n.localize(D.label),
         value: t.skills[d]?.value || 0,
-        attribute: S.attribute,
-        attributeValue: t.attributes[S.attribute]?.value || 2
+        attribute: D.attribute,
+        attributeValue: t.attributes[D.attribute]?.value || 2
       });
     }
-    const i = w.getWeapons(this.actor).map((d) => ({
+    const i = b.getWeapons(this.actor).map((d) => ({
       id: d.id,
       name: d.name,
       img: d.img,
       damage: d.system.damage,
       weaponType: d.system.weaponType,
       equipped: d.system.equipped
-    })), n = D.getPowersByDevotion(this.actor), l = D.canUsePsychicPowers(this.actor), o = b.getCorruptionStatus(this.actor), m = {
+    })), n = k.getPowersByDevotion(this.actor), o = k.canUsePsychicPowers(this.actor), l = y.getCorruptionStatus(this.actor), h = {
       current: t.derived.health.value,
       max: t.derived.health.max,
       temp: t.derived.health.temp || 0,
@@ -2341,11 +2344,11 @@ class L extends Application {
       max: t.derived.mentalHealth.max,
       temp: t.derived.mentalHealth.temp || 0,
       percent: Math.round(t.derived.mentalHealth.value / t.derived.mentalHealth.max * 100)
-    }, p = k.getBalance(this.actor), U = k.format(p), M = {
+    }, f = p.getBalance(this.actor), U = p.format(f), C = {
       initiative: t.derived.initiative,
       actions: t.derived.actions,
       movement: t.derived.movement
-    }, v = this.actor.items, g = Array.from(v.values()).filter((d) => d.type === "affliction"), C = Array.from(v.values()).filter((d) => d.type === "disorder");
+    }, M = this.actor.items, v = Array.from(M.values()).filter((d) => d.type === "affliction"), S = Array.from(M.values()).filter((d) => d.type === "disorder");
     return {
       actor: this.actor,
       system: t,
@@ -2353,16 +2356,16 @@ class L extends Application {
       skillsByAttribute: s,
       weapons: i,
       powers: n,
-      hasPowers: l,
-      corruption: o,
-      health: m,
+      hasPowers: o,
+      corruption: l,
+      health: h,
       mentalHealth: c,
-      currency: p,
+      currency: f,
       formattedCurrency: U,
-      combatStats: M,
-      afflictions: g,
-      disorders: C,
-      devotions: D.DEVOTIONS
+      combatStats: C,
+      afflictions: v,
+      disorders: S,
+      devotions: k.DEVOTIONS
     };
   }
   activateListeners(e) {
@@ -2416,7 +2419,7 @@ class L extends Application {
   async _onWeaponAttack(e) {
     e.preventDefault();
     const t = $(e.currentTarget).data("weapon-id"), a = this.actor.items.get(t);
-    a && await w.attack(this.actor, {
+    a && await b.attack(this.actor, {
       weapon: a,
       targetNumber: 15
     });
@@ -2429,7 +2432,7 @@ class L extends Application {
     const t = $(e.currentTarget).data("weapon-id"), a = this.actor.items.get(t);
     if (a) {
       const s = await this._selectHitLocation();
-      s && await w.attack(this.actor, {
+      s && await b.attack(this.actor, {
         weapon: a,
         targetNumber: 15,
         aimed: !0,
@@ -2444,7 +2447,7 @@ class L extends Application {
   async _onAutofire(e) {
     e.preventDefault();
     const t = $(e.currentTarget).data("weapon-id"), a = this.actor.items.get(t);
-    a && await w.attack(this.actor, {
+    a && await b.attack(this.actor, {
       weapon: a,
       targetNumber: 15,
       autofire: !0
@@ -2456,7 +2459,7 @@ class L extends Application {
   async _onActivatePower(e) {
     e.preventDefault();
     const t = $(e.currentTarget).data("power-id"), a = this.actor.items.get(t);
-    a && (await D.activatePower(this.actor, a), this.render(!1));
+    a && (await k.activatePower(this.actor, a), this.render(!1));
   }
   /**
    * Take physical damage
@@ -2516,7 +2519,7 @@ class L extends Application {
   async _onAddCorruption(e) {
     e.preventDefault();
     const t = $(e.currentTarget).data("type"), a = await this._promptForNumber(`${t} Corruption`, 1);
-    a > 0 && (await b.applyCorruption(this.actor, {
+    a > 0 && (await y.applyCorruption(this.actor, {
       type: t,
       amount: a,
       source: "Self Applied"
@@ -2528,7 +2531,7 @@ class L extends Application {
   async _onAddFunds(e) {
     e.preventDefault();
     const t = await this._promptForCurrency("Add Funds");
-    k.toPence(t) > 0 && (await k.addFunds(this.actor, t, "Funds Received"), this.render(!1));
+    p.toPence(t) > 0 && (await p.addFunds(this.actor, t, "Funds Received"), this.render(!1));
   }
   /**
    * Spend funds
@@ -2536,7 +2539,7 @@ class L extends Application {
   async _onSpendFunds(e) {
     e.preventDefault();
     const t = await this._promptForCurrency("Spend Funds");
-    k.toPence(t) > 0 && (await k.purchase(this.actor, t, "Expense"), this.render(!1));
+    p.toPence(t) > 0 && (await p.purchase(this.actor, t, "Expense"), this.render(!1));
   }
   /**
    * Roll initiative
@@ -2558,7 +2561,7 @@ class L extends Application {
     const t = $(e.currentTarget).closest(".item").data("item-id"), a = this.actor.items.get(t);
     if (a) {
       const s = a;
-      s.type === "weapon" ? await w.attack(this.actor, { weapon: a }) : s.type === "psychicPower" && await D.activatePower(this.actor, a);
+      s.type === "weapon" ? await b.attack(this.actor, { weapon: a }) : s.type === "psychicPower" && await k.activatePower(this.actor, a);
     }
   }
   /**
@@ -2700,6 +2703,465 @@ class L extends Application {
     return t.render(!0), t;
   }
 }
+const P = [
+  {
+    slot: 1,
+    id: "corruption",
+    name: "Corruption",
+    icon: "fa-biohazard",
+    color: "#8b0000",
+    gradient: "linear-gradient(135deg, #2d1f3d 0%, #4a1f2d 50%, #8b0000 100%)",
+    description: "Track corruption, afflictions, and disorders"
+  },
+  {
+    slot: 2,
+    id: "psychic",
+    name: "Psychic",
+    icon: "fa-brain",
+    color: "#9966cc",
+    gradient: "linear-gradient(135deg, #1a1a2e 0%, #2d1f4d 50%, #9966cc 100%)",
+    description: "Manage psychic powers and devotions"
+  },
+  {
+    slot: 3,
+    id: "combat",
+    name: "Combat",
+    icon: "fa-crosshairs",
+    color: "#cc3300",
+    gradient: "linear-gradient(135deg, #1a1a1a 0%, #4d1f1f 50%, #cc3300 100%)",
+    description: "Combat actions, wounds, and hit locations"
+  },
+  {
+    slot: 4,
+    id: "wealth",
+    name: "Wealth",
+    icon: "fa-coins",
+    color: "#d4af37",
+    gradient: "linear-gradient(135deg, #1a1a1a 0%, #3d3d1f 50%, #d4af37 100%)",
+    description: "Manage currency and transactions"
+  }
+];
+class Y extends Application {
+  constructor(e, t) {
+    super(t), this.actor = null, this.config = e;
+  }
+  static get defaultOptions() {
+    return {
+      id: "system-hub",
+      title: "System Hub",
+      template: "systems/unhallowed-metropolis/templates/apps/system-hub.hbs",
+      width: 400,
+      height: 500,
+      classes: ["unhallowed-metropolis", "system-hub"],
+      resizable: !0,
+      minimizable: !0
+    };
+  }
+  get title() {
+    return `UM | ${this.config.name} Hub`;
+  }
+  getData() {
+    return this.actor = this._getControlledActor(), {
+      config: this.config,
+      actor: this.actor,
+      isGM: game.user?.isGM
+    };
+  }
+  _getControlledActor() {
+    const e = canvas?.tokens?.controlled?.[0];
+    return e?.actor ? e.actor : game.user?.character || null;
+  }
+  activateListeners(e) {
+    super.activateListeners(e), e.find(".hub-close").on("click", () => this.close());
+  }
+}
+const V = class V extends Y {
+  constructor() {
+    super(P[0]);
+  }
+  static get defaultOptions() {
+    return {
+      ...super.defaultOptions,
+      id: "corruption-hub",
+      template: "systems/unhallowed-metropolis/templates/apps/corruption-hub.hbs",
+      width: 450,
+      height: 600,
+      classes: ["unhallowed-metropolis", "system-hub", "corruption-hub"]
+    };
+  }
+  getData() {
+    const e = super.getData(), t = this.actor;
+    if (t) {
+      const a = t.system;
+      e.corruption = {
+        physical: {
+          value: a.corruption?.physical?.value || 0,
+          threshold: a.corruption?.physical?.threshold || 10,
+          percent: Math.round((a.corruption?.physical?.value || 0) / (a.corruption?.physical?.threshold || 10) * 100)
+        },
+        mental: {
+          value: a.corruption?.mental?.value || 0,
+          threshold: a.corruption?.mental?.threshold || 10,
+          percent: Math.round((a.corruption?.mental?.value || 0) / (a.corruption?.mental?.threshold || 10) * 100)
+        }
+      }, e.afflictions = t.items.filter((s) => s.type === "affliction") || [], e.disorders = t.items.filter((s) => s.type === "disorder") || [];
+    }
+    return e.quickAmounts = [1, 2, 3, 5], e;
+  }
+  activateListeners(e) {
+    super.activateListeners(e), e.find(".add-physical-corruption").on("click", (t) => this._onAddCorruption(t, "physical")), e.find(".add-mental-corruption").on("click", (t) => this._onAddCorruption(t, "mental")), e.find(".remove-physical-corruption").on("click", (t) => this._onRemoveCorruption(t, "physical")), e.find(".remove-mental-corruption").on("click", (t) => this._onRemoveCorruption(t, "mental")), e.find(".roll-affliction-check").on("click", () => this._onRollAfflictionCheck()), e.find(".view-affliction, .view-disorder").on("click", (t) => this._onViewItem(t));
+  }
+  async _onAddCorruption(e, t) {
+    e.preventDefault();
+    const a = parseInt($(e.currentTarget).data("amount")) || 1;
+    this.actor && (await y.applyCorruption(this.actor, { type: t, amount: a, source: "Manual adjustment" }), this.render(!1));
+  }
+  async _onRemoveCorruption(e, t) {
+    e.preventDefault();
+    const a = parseInt($(e.currentTarget).data("amount")) || 1;
+    if (this.actor) {
+      const i = this.actor.system.corruption?.[t]?.value || 0, n = Math.max(0, i - a);
+      await this.actor.update({ [`system.corruption.${t}.value`]: n }), this.render(!1);
+    }
+  }
+  async _onRollAfflictionCheck() {
+    this.actor && await y.triggerAfflictionCheck(this.actor, "physical");
+  }
+  _onViewItem(e) {
+    const t = $(e.currentTarget).data("item-id");
+    this.actor?.items.get(t)?.sheet?.render(!0);
+  }
+  static toggle() {
+    this._instance?.rendered ? this._instance.close() : (this._instance || (this._instance = new V()), this._instance.render(!0));
+  }
+};
+V._instance = null;
+let x = V;
+const q = class q extends Y {
+  constructor() {
+    super(P[1]);
+  }
+  static get defaultOptions() {
+    return {
+      ...super.defaultOptions,
+      id: "psychic-hub",
+      template: "systems/unhallowed-metropolis/templates/apps/psychic-hub.hbs",
+      width: 500,
+      height: 650,
+      classes: ["unhallowed-metropolis", "system-hub", "psychic-hub"]
+    };
+  }
+  getData() {
+    const e = super.getData(), t = this.actor;
+    if (e.devotions = k.DEVOTIONS, t) {
+      const a = t.system, s = t.items.filter((i) => i.type === "psychicPower") || [];
+      e.powersByDevotion = {};
+      for (const i of Object.keys(k.DEVOTIONS))
+        e.powersByDevotion[i] = s.filter(
+          (n) => n.system.devotion?.toLowerCase() === i.toLowerCase()
+        );
+      e.powers = s, e.mentalHealth = {
+        value: a.derived?.mentalHealth?.value || 0,
+        max: a.derived?.mentalHealth?.max || 10,
+        percent: Math.round((a.derived?.mentalHealth?.value || 0) / (a.derived?.mentalHealth?.max || 10) * 100)
+      }, e.corruption = {
+        mental: a.corruption?.mental || { value: 0, threshold: 10 }
+      };
+    }
+    return e;
+  }
+  activateListeners(e) {
+    super.activateListeners(e), e.find(".activate-power").on("click", (t) => this._onActivatePower(t)), e.find(".view-power").on("click", (t) => this._onViewPower(t)), e.find(".roll-devotion").on("click", (t) => this._onRollDevotion(t));
+  }
+  async _onActivatePower(e) {
+    e.preventDefault();
+    const t = $(e.currentTarget).data("power-id"), a = this.actor?.items.get(t);
+    this.actor && a && (await k.activatePower(this.actor, a), this.render(!1));
+  }
+  _onViewPower(e) {
+    const t = $(e.currentTarget).data("power-id");
+    this.actor?.items.get(t)?.sheet?.render(!0);
+  }
+  async _onRollDevotion(e) {
+    e.preventDefault();
+    const t = $(e.currentTarget).data("devotion");
+    if (this.actor) {
+      const s = this.actor.system.attributes?.will?.value || 2, i = new Roll("2d10 + @will", { will: s });
+      await i.evaluate(), await ChatMessage.create({
+        speaker: ChatMessage.getSpeaker({ actor: this.actor }),
+        content: `
+          <div class="um-devotion-roll">
+            <header><h3>${t} Check</h3></header>
+            <div class="roll-result">
+              <span class="dice">🎲</span>
+              <span class="total">${i.total}</span>
+            </div>
+            <div class="formula">${i.formula} = ${i.result}</div>
+          </div>
+        `
+      });
+    }
+  }
+  static toggle() {
+    this._instance?.rendered ? this._instance.close() : (this._instance || (this._instance = new q()), this._instance.render(!0));
+  }
+};
+q._instance = null;
+let z = q;
+const W = class W extends Y {
+  constructor() {
+    super(P[2]), this.selectedWeapon = null;
+  }
+  static get defaultOptions() {
+    return {
+      ...super.defaultOptions,
+      id: "combat-hub",
+      template: "systems/unhallowed-metropolis/templates/apps/combat-hub.hbs",
+      width: 550,
+      height: 700,
+      classes: ["unhallowed-metropolis", "system-hub", "combat-hub"]
+    };
+  }
+  getData() {
+    const e = super.getData(), t = this.actor;
+    if (e.hitLocations = b.HIT_LOCATIONS, e.attackTypes = [
+      { id: "melee", name: "Melee", icon: "fa-fist-raised" },
+      { id: "ranged", name: "Ranged", icon: "fa-crosshairs" },
+      { id: "burst", name: "Burst Fire", icon: "fa-burst" },
+      { id: "spread", name: "Spread", icon: "fa-expand" },
+      { id: "grapple", name: "Grapple", icon: "fa-hand-fist" }
+    ], t) {
+      const a = t.system;
+      e.weapons = t.items.filter((s) => s.type === "weapon") || [], e.selectedWeapon = this.selectedWeapon, e.health = {
+        value: a.derived?.health?.value || 0,
+        max: a.derived?.health?.max || 10,
+        percent: Math.round((a.derived?.health?.value || 0) / (a.derived?.health?.max || 10) * 100)
+      }, e.combatStats = {
+        initiative: a.derived?.initiative || 0,
+        actions: a.derived?.actions || 2,
+        defense: a.derived?.defense || 10
+      }, e.wounds = a.wounds || [];
+    }
+    return e;
+  }
+  activateListeners(e) {
+    super.activateListeners(e), e.find(".select-weapon").on("click", (t) => this._onSelectWeapon(t)), e.find(".perform-attack").on("click", (t) => this._onPerformAttack(t)), e.find(".roll-hit-location").on("click", () => this._onRollHitLocation()), e.find(".roll-initiative").on("click", () => this._onRollInitiative()), e.find(".aimed-shot-toggle").on("change", (t) => this._onAimedShotToggle(t));
+  }
+  _onSelectWeapon(e) {
+    const t = $(e.currentTarget).data("weapon-id");
+    this.selectedWeapon = this.actor?.items.get(t), this.render(!1);
+  }
+  async _onPerformAttack(e) {
+    e.preventDefault();
+    const t = $(e.currentTarget).data("attack-type") || "melee";
+    if (!this.actor) {
+      ui.notifications?.warn("No actor selected");
+      return;
+    }
+    const a = {
+      type: t
+    }, s = $('input[name="aimed-location"]:checked').val();
+    s && (a.calledShot = s), t === "burst" && (a.autofire = !0), await b.attack(this.actor, a);
+  }
+  async _onRollHitLocation() {
+    await b.rollHitLocation();
+  }
+  async _onRollInitiative() {
+    if (this.actor) {
+      const t = this.actor.system.attributes?.wit?.value || 2, a = new Roll("2d10 + @wit", { wit: t });
+      await a.evaluate(), await ChatMessage.create({
+        speaker: ChatMessage.getSpeaker({ actor: this.actor }),
+        content: `
+          <div class="um-initiative-roll">
+            <header><h3>Initiative</h3></header>
+            <div class="roll-result">
+              <span class="dice">🎲</span>
+              <span class="total">${a.total}</span>
+            </div>
+            <div class="formula">${a.formula} = ${a.result}</div>
+          </div>
+        `
+      });
+    }
+  }
+  _onAimedShotToggle(e) {
+  }
+  static toggle() {
+    this._instance?.rendered ? this._instance.close() : (this._instance || (this._instance = new W()), this._instance.render(!0));
+  }
+};
+W._instance = null;
+let F = W;
+const j = class j extends Y {
+  constructor() {
+    super(P[3]);
+  }
+  static get defaultOptions() {
+    return {
+      ...super.defaultOptions,
+      id: "wealth-hub",
+      template: "systems/unhallowed-metropolis/templates/apps/wealth-hub.hbs",
+      width: 400,
+      height: 500,
+      classes: ["unhallowed-metropolis", "system-hub", "wealth-hub"]
+    };
+  }
+  getData() {
+    const e = super.getData(), t = this.actor;
+    if (e.commonPrices = [
+      { name: "Meal (common)", cost: "3d" },
+      { name: "Meal (fine)", cost: "2s" },
+      { name: "Lodging (night)", cost: "6d - 5s" },
+      { name: "Cab fare", cost: "1s" },
+      { name: "Pistol ammunition (10)", cost: "5s" },
+      { name: "Rifle ammunition (10)", cost: "8s" },
+      { name: "First aid kit", cost: "15s" },
+      { name: "Lantern", cost: "7s" },
+      { name: "Rope (50ft)", cost: "3s" }
+    ], t) {
+      const a = t.system;
+      e.currency = {
+        pounds: a.wealth?.pounds || 0,
+        shillings: a.wealth?.shillings || 0,
+        pence: a.wealth?.pence || 0,
+        totalPence: p.toPence({
+          pounds: a.wealth?.pounds || 0,
+          shillings: a.wealth?.shillings || 0,
+          pence: a.wealth?.pence || 0
+        })
+      }, e.wealthLevel = a.wealth?.level || "Poor";
+    }
+    return e;
+  }
+  activateListeners(e) {
+    super.activateListeners(e), e.find(".add-currency").on("click", (t) => this._onAddCurrency(t)), e.find(".subtract-currency").on("click", (t) => this._onSubtractCurrency(t)), e.find(".quick-transaction").on("click", (t) => this._onQuickTransaction(t)), e.find(".roll-wealth-check").on("click", () => this._onRollWealthCheck()), e.find(".convert-currency").on("click", () => this._onConvertCurrency());
+  }
+  async _onAddCurrency(e) {
+    e.preventDefault();
+    const t = $(e.currentTarget).data("type"), a = parseInt($(e.currentTarget).data("amount")) || 1;
+    if (this.actor) {
+      const s = { pounds: 0, shillings: 0, pence: 0, [t]: a };
+      await p.addFunds(this.actor, s, "Manual adjustment"), this.render(!1);
+    }
+  }
+  async _onSubtractCurrency(e) {
+    e.preventDefault();
+    const t = $(e.currentTarget).data("type"), a = parseInt($(e.currentTarget).data("amount")) || 1;
+    if (this.actor) {
+      const s = { pounds: 0, shillings: 0, pence: 0, [t]: a };
+      await p.purchase(this.actor, s, "Manual deduction"), this.render(!1);
+    }
+  }
+  async _onQuickTransaction(e) {
+    e.preventDefault();
+    const t = $(e.currentTarget).data("cost"), a = $(e.currentTarget).data("name");
+    if (this.actor) {
+      const s = p.parse(t);
+      s && (await p.purchase(this.actor, s, a), this.render(!1));
+    }
+  }
+  _parseCost(e) {
+    const t = {}, a = e.match(/(\d+)£/);
+    a && (t.pounds = parseInt(a[1]));
+    const s = e.match(/(\d+)s/);
+    s && (t.shillings = parseInt(s[1]));
+    const i = e.match(/(\d+)d/);
+    return i && (t.pence = parseInt(i[1])), Object.keys(t).length > 0 ? t : null;
+  }
+  async _onRollWealthCheck() {
+    if (this.actor) {
+      const e = p.getBalance(this.actor);
+      ui.notifications?.info(`Current balance: ${p.format(e)}`);
+    }
+  }
+  async _onConvertCurrency() {
+    if (this.actor) {
+      const e = this.actor.system, t = p.toPence({
+        pounds: e.wealth?.pounds || 0,
+        shillings: e.wealth?.shillings || 0,
+        pence: e.wealth?.pence || 0
+      }), a = p.fromPence(t);
+      await this.actor.update({
+        "system.wealth.pounds": a.pounds,
+        "system.wealth.shillings": a.shillings,
+        "system.wealth.pence": a.pence
+      }), ui.notifications?.info("Currency normalized"), this.render(!1);
+    }
+  }
+  static toggle() {
+    this._instance?.rendered ? this._instance.close() : (this._instance || (this._instance = new j()), this._instance.render(!0));
+  }
+};
+j._instance = null;
+let B = j;
+const X = class X {
+  /**
+   * Initialize the hotbar hub integration
+   */
+  static init() {
+    this.initialized || (Hooks.on("renderHotbar", this._onRenderHotbar.bind(this)), this._registerKeybindings(), this.initialized = !0, console.log("UM | Hotbar Hub Manager initialized"));
+  }
+  /**
+   * Inject custom hub buttons into hotbar slots
+   */
+  static _onRenderHotbar(e, t) {
+    const a = t.find("#action-bar");
+    if (a.length)
+      for (const s of P) {
+        const i = a.find(`.slot[data-slot="${s.slot}"]`);
+        if (!i.length) continue;
+        const n = $(`
+        <li class="slot um-hub-slot ${s.id}-hub" 
+            data-hub="${s.id}"
+            data-slot="${s.slot}"
+            data-tooltip="${s.name} Hub"
+            style="background: ${s.gradient}; border: 1px solid ${s.color}40;"
+            role="button"
+            aria-label="${s.name} Hub">
+          <i class="fa-solid ${s.icon}" style="color: ${s.color}; font-size: 24px;"></i>
+          <span class="key">${s.slot}</span>
+          <span class="hub-label">${s.name}</span>
+        </li>
+      `);
+        i.replaceWith(n), n.on("click", (o) => {
+          o.preventDefault(), o.stopPropagation(), this._openHub(s.id);
+        }), n.on("mouseenter", function() {
+          $(this).css("transform", "scale(1.1)"), $(this).css("box-shadow", `0 0 15px ${s.color}80`);
+        }), n.on("mouseleave", function() {
+          $(this).css("transform", "scale(1)"), $(this).css("box-shadow", "none");
+        });
+      }
+  }
+  /**
+   * Open the specified hub
+   */
+  static _openHub(e) {
+    switch (e) {
+      case "corruption":
+        x.toggle();
+        break;
+      case "psychic":
+        z.toggle();
+        break;
+      case "combat":
+        F.toggle();
+        break;
+      case "wealth":
+        B.toggle();
+        break;
+    }
+  }
+  /**
+   * Register keyboard shortcuts for hubs
+   */
+  static _registerKeybindings() {
+    document.addEventListener("keydown", (e) => {
+      document.activeElement?.tagName === "INPUT" || document.activeElement?.tagName;
+    });
+  }
+};
+X.initialized = !1;
+let K = X;
 (() => {
   try {
     const r = globalThis;
@@ -2713,22 +3175,26 @@ class L extends Application {
 })();
 Hooks.once("init", async () => {
   console.log("UM | Initializing Unhallowed Metropolis System"), game.unhallowedMetropolis = {
-    UMActor: F,
-    UMItem: G,
+    UMActor: Z,
+    UMItem: ee,
     config: u,
     // Expose systems for macro/module use
     systems: {
-      CorruptionSystem: b,
-      PsychicPowerSystem: D,
-      WealthSystem: k,
-      EnhancedCombatSystem: w
+      CorruptionSystem: y,
+      PsychicPowerSystem: k,
+      WealthSystem: p,
+      EnhancedCombatSystem: b
     },
     // Expose hub applications
     apps: {
-      GMHub: I,
-      PCHub: L
+      GMHub: _,
+      PCHub: L,
+      CorruptionHub: x,
+      PsychicHub: z,
+      CombatHub: F,
+      WealthHub: B
     }
-  }, CONFIG.Actor.documentClass = F, CONFIG.Item.documentClass = G, game.settings.register("unhallowed-metropolis", "corruptionTracking", {
+  }, CONFIG.Actor.documentClass = Z, CONFIG.Item.documentClass = ee, game.settings.register("unhallowed-metropolis", "corruptionTracking", {
     name: "UM.Settings.CorruptionTracking",
     hint: "UM.Settings.CorruptionTrackingHint",
     scope: "world",
@@ -2742,30 +3208,32 @@ Hooks.once("init", async () => {
     config: !0,
     default: !0,
     type: Boolean
-  }), await Y(), K(), j(), Actors.unregisterSheet("core", ActorSheet), Actors.registerSheet("unhallowed-metropolis", B, {
+  }), await de(), ue(), ce();
+  const r = foundry.appv1?.sheets?.ActorSheet ?? ActorSheet, e = foundry.appv1?.sheets?.ItemSheet ?? ItemSheet, t = foundry.documents?.collections?.Actors ?? Actors, a = foundry.documents?.collections?.Items ?? Items;
+  t.unregisterSheet("core", r), t.registerSheet("unhallowed-metropolis", ae, {
     types: ["character"],
     makeDefault: !0,
     label: "UM.SheetLabels.Character"
-  }), Actors.registerSheet("unhallowed-metropolis", V, {
+  }), t.registerSheet("unhallowed-metropolis", ie, {
     types: ["npc"],
     makeDefault: !0,
     label: "UM.SheetLabels.NPC"
-  }), Actors.registerSheet("unhallowed-metropolis", q, {
+  }), t.registerSheet("unhallowed-metropolis", oe, {
     types: ["animate", "vampire", "creature"],
     makeDefault: !0,
     label: "UM.SheetLabels.Creature"
-  }), Items.unregisterSheet("core", ItemSheet), Items.registerSheet("unhallowed-metropolis", W, {
+  }), a.unregisterSheet("core", e), a.registerSheet("unhallowed-metropolis", le, {
     makeDefault: !0,
     label: "UM.SheetLabels.Item"
-  });
-});
-Hooks.once("ready", async () => {
-  console.log("UM | Unhallowed Metropolis System Ready"), console.log("UM | Welcome to Neo-Victorian London. The dead walk, and the living hide behind walls of brass and steel."), game.user?.isGM && game.keybindings?.register("unhallowed-metropolis", "openGMHub", {
+  }), game.keybindings?.register("unhallowed-metropolis", "openGMHub", {
     name: "UM.Keybindings.OpenGMHub",
     hint: "UM.Keybindings.OpenGMHubHint",
     editable: [{ key: "KeyG", modifiers: ["Control", "Shift"] }],
-    onDown: () => (I.open(), !0)
+    onDown: () => (game.user?.isGM && _.open(), !0)
   });
+});
+Hooks.once("ready", async () => {
+  console.log("UM | Unhallowed Metropolis System Ready"), console.log("UM | Welcome to Neo-Victorian London. The dead walk, and the living hide behind walls of brass and steel."), K.init(), console.log("UM | Hotbar Hubs initialized (Slots 1-4: Corruption, Psychic, Combat, Wealth)");
 });
 Hooks.on("renderActorSheet", (r, e, t) => {
   const a = r.actor;
@@ -2795,16 +3263,31 @@ Hooks.on("getActorDirectoryEntryContext", (r, e) => {
 });
 Hooks.on("getSceneControlButtons", (r) => {
   if (!game.user?.isGM) return;
-  const e = r.find((t) => t.name === "token");
-  e && e.tools.push({
-    name: "gm-hub",
-    title: "UM.Controls.GMHub",
-    icon: "fas fa-skull-crossbones",
-    button: !0,
-    onClick: () => I.open()
-  });
+  let e = null;
+  if (Array.isArray(r) ? e = r.find((t) => t.name === "token") : r?.controls && Array.isArray(r.controls) ? e = r.controls.find((t) => t.name === "token") : r?.groups ? e = (r.groups instanceof Map ? Array.from(r.groups.values()) : Object.values(r.groups)).find((a) => a.name === "token") : r?.token && (e = r.token), e) {
+    const t = e.tools;
+    Array.isArray(t) ? t.push({
+      name: "gm-hub",
+      title: "UM.Controls.GMHub",
+      icon: "fas fa-skull-crossbones",
+      button: !0,
+      onClick: () => _.open()
+    }) : t instanceof Map ? t.set("gm-hub", {
+      name: "gm-hub",
+      title: "UM.Controls.GMHub",
+      icon: "fas fa-skull-crossbones",
+      button: !0,
+      onClick: () => _.open()
+    }) : typeof t == "object" && (t["gm-hub"] = {
+      name: "gm-hub",
+      title: "UM.Controls.GMHub",
+      icon: "fas fa-skull-crossbones",
+      button: !0,
+      onClick: () => _.open()
+    });
+  }
 });
-async function Y() {
+async function de() {
   const r = [
     // Actor sheets
     "systems/unhallowed-metropolis/templates/actors/character-sheet.hbs",
@@ -2827,11 +3310,16 @@ async function Y() {
     "systems/unhallowed-metropolis/templates/dialogs/roll-dialog.hbs",
     // App templates (GM Hub & PC Hub)
     "systems/unhallowed-metropolis/templates/apps/gm-hub.hbs",
-    "systems/unhallowed-metropolis/templates/apps/pc-hub.hbs"
+    "systems/unhallowed-metropolis/templates/apps/pc-hub.hbs",
+    // Hotbar Hub templates
+    "systems/unhallowed-metropolis/templates/apps/corruption-hub.hbs",
+    "systems/unhallowed-metropolis/templates/apps/psychic-hub.hbs",
+    "systems/unhallowed-metropolis/templates/apps/combat-hub.hbs",
+    "systems/unhallowed-metropolis/templates/apps/wealth-hub.hbs"
   ];
-  return loadTemplates(r);
+  return (foundry.applications?.handlebars?.loadTemplates ?? loadTemplates)(r);
 }
-function K() {
+function ue() {
   Handlebars.registerHelper("times", function(r, e) {
     let t = "";
     for (let a = 0; a < r; a++)

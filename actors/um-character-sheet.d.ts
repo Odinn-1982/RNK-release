@@ -3,7 +3,8 @@
  *
  * The main character sheet for player characters
  */
-export declare class UMCharacterSheet extends ActorSheet {
+declare const ActorSheetBase: typeof ActorSheet;
+export declare class UMCharacterSheet extends ActorSheetBase {
     static get defaultOptions(): any;
     /**
      * Prepare data for the template
@@ -74,3 +75,4 @@ export declare class UMCharacterSheet extends ActorSheet {
      */
     private _onPowerActivate;
 }
+export {};

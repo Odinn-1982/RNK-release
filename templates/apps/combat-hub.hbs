@@ -1,0 +1,168 @@
+<div class="combat-hub-container">
+  <header class="hub-header combat-header">
+    <div class="header-icon">
+      <i class="fa-solid fa-crosshairs"></i>
+    </div>
+    <div class="header-title">
+      <h2>Combat Hub</h2>
+      {{#if actor}}
+      <span class="actor-name">{{actor.name}}</span>
+      {{else}}
+      <span class="no-actor">No character selected</span>
+      {{/if}}
+    </div>
+    <button class="hub-close" type="button"><i class="fa-solid fa-times"></i></button>
+  </header>
+
+  {{#if actor}}
+  <section class="hub-content">
+    <!-- Health & Combat Stats -->
+    <div class="combat-status">
+      <div class="status-bar health-status">
+        <div class="status-icon"><i class="fa-solid fa-heart"></i></div>
+        <div class="status-meter">
+          <div class="meter-bar">
+            <div class="meter-fill health-fill" style="width: {{health.percent}}%"></div>
+            <span class="meter-text">{{health.value}} / {{health.max}}</span>
+          </div>
+        </div>
+      </div>
+      <div class="combat-stats-row">
+        <div class="stat-box">
+          <span class="stat-label">Initiative</span>
+          <span class="stat-value">{{combatStats.initiative}}</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-label">Actions</span>
+          <span class="stat-value">{{combatStats.actions}}</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-label">Defense</span>
+          <span class="stat-value">{{combatStats.defense}}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Weapon Selection -->
+    <div class="weapons-section">
+      <div class="section-header">
+        <i class="fa-solid fa-gun"></i>
+        <h3>Weapons</h3>
+      </div>
+      {{#if weapons.length}}
+      <div class="weapons-grid">
+        {{#each weapons}}
+        <div class="weapon-card {{#if (eq this.id ../selectedWeapon.id)}}selected{{/if}}" 
+             data-weapon-id="{{this.id}}">
+          <img src="{{this.img}}" alt="{{this.name}}" class="weapon-icon">
+          <div class="weapon-info">
+            <span class="weapon-name">{{this.name}}</span>
+            <span class="weapon-damage">{{this.system.damage}}</span>
+          </div>
+          <button type="button" class="select-weapon" data-weapon-id="{{this.id}}">
+            <i class="fa-solid fa-check"></i>
+          </button>
+        </div>
+        {{/each}}
+      </div>
+      {{else}}
+      <p class="empty-list">No weapons equipped</p>
+      {{/if}}
+    </div>
+
+    <!-- Attack Types -->
+    <div class="attacks-section">
+      <div class="section-header">
+        <i class="fa-solid fa-burst"></i>
+        <h3>Attack Actions</h3>
+      </div>
+      <div class="attack-grid">
+        {{#each attackTypes}}
+        <button type="button" class="attack-btn perform-attack" data-attack-type="{{this.id}}">
+          <i class="fa-solid {{this.icon}}"></i>
+          <span>{{this.name}}</span>
+        </button>
+        {{/each}}
+      </div>
+    </div>
+
+    <!-- Aimed Shots -->
+    <div class="aimed-shots-section">
+      <div class="section-header">
+        <i class="fa-solid fa-bullseye"></i>
+        <h3>Aimed Shot</h3>
+      </div>
+      <div class="aimed-grid">
+        <label class="aimed-option">
+          <input type="radio" name="aimed-location" value="">
+          <span class="option-label">None</span>
+        </label>
+        <label class="aimed-option">
+          <input type="radio" name="aimed-location" value="head">
+          <span class="option-label"><i class="fa-solid fa-head-side"></i> Head (-4)</span>
+        </label>
+        <label class="aimed-option">
+          <input type="radio" name="aimed-location" value="torso">
+          <span class="option-label"><i class="fa-solid fa-shirt"></i> Torso (-2)</span>
+        </label>
+        <label class="aimed-option">
+          <input type="radio" name="aimed-location" value="arm">
+          <span class="option-label"><i class="fa-solid fa-hand"></i> Arm (-3)</span>
+        </label>
+        <label class="aimed-option">
+          <input type="radio" name="aimed-location" value="leg">
+          <span class="option-label"><i class="fa-solid fa-socks"></i> Leg (-3)</span>
+        </label>
+      </div>
+    </div>
+
+    <!-- Quick Rolls -->
+    <div class="quick-rolls-section">
+      <div class="section-header">
+        <i class="fa-solid fa-dice"></i>
+        <h3>Quick Rolls</h3>
+      </div>
+      <div class="quick-rolls-row">
+        <button type="button" class="roll-btn roll-initiative">
+          <i class="fa-solid fa-bolt"></i> Initiative
+        </button>
+        <button type="button" class="roll-btn roll-hit-location">
+          <i class="fa-solid fa-crosshairs"></i> Hit Location
+        </button>
+      </div>
+    </div>
+
+    <!-- Hit Location Reference -->
+    <div class="hit-location-section collapsed">
+      <div class="section-header toggle-section">
+        <i class="fa-solid fa-map"></i>
+        <h3>Hit Locations</h3>
+        <i class="fa-solid fa-chevron-down toggle-icon"></i>
+      </div>
+      <div class="hit-location-table">
+        <table>
+          <thead>
+            <tr><th>Roll</th><th>Location</th><th>Modifier</th></tr>
+          </thead>
+          <tbody>
+            {{#each hitLocations}}
+            <tr>
+              <td>{{@key}}</td>
+              <td>{{this.location}}</td>
+              <td>{{this.modifier}}</td>
+            </tr>
+            {{/each}}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+  {{else}}
+  <section class="hub-content no-actor-content">
+    <div class="no-actor-message">
+      <i class="fa-solid fa-user-slash"></i>
+      <p>Select a token or assign a character to access combat options.</p>
+    </div>
+  </section>
+  {{/if}}
+</div>

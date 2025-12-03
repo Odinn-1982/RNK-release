@@ -99,7 +99,7 @@ export declare const UM: {
             label: string;
             attribute: string;
         };
-        bureauracy: {
+        bureaucracy: {
             label: string;
             attribute: string;
         };

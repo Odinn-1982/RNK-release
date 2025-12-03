@@ -40,37 +40,37 @@ export declare class PsychicPowerSystem {
     static readonly DEVOTIONS: {
         empathy: {
             label: string;
-            skill: "athletics" | "brawl" | "endurance" | "concentration" | "drive" | "firearms" | "larceny" | "melee" | "stealth" | "animalHandling" | "awareness" | "empathy" | "gambling" | "academics" | "bureauracy" | "criminology" | "demolitions" | "engineering" | "medicine" | "occult" | "politics" | "science" | "survival" | "intimidation" | "meditation" | "artistry" | "etiquette" | "expression" | "leadership" | "negotiation" | "seduction" | "streetwise" | "subterfuge";
+            skill: "athletics" | "brawl" | "endurance" | "concentration" | "drive" | "firearms" | "larceny" | "melee" | "stealth" | "animalHandling" | "awareness" | "empathy" | "gambling" | "academics" | "bureaucracy" | "criminology" | "demolitions" | "engineering" | "medicine" | "occult" | "politics" | "science" | "survival" | "intimidation" | "meditation" | "artistry" | "etiquette" | "expression" | "leadership" | "negotiation" | "seduction" | "streetwise" | "subterfuge";
             attribute: string;
             description: string;
         };
         magnetism: {
             label: string;
-            skill: "athletics" | "brawl" | "endurance" | "concentration" | "drive" | "firearms" | "larceny" | "melee" | "stealth" | "animalHandling" | "awareness" | "empathy" | "gambling" | "academics" | "bureauracy" | "criminology" | "demolitions" | "engineering" | "medicine" | "occult" | "politics" | "science" | "survival" | "intimidation" | "meditation" | "artistry" | "etiquette" | "expression" | "leadership" | "negotiation" | "seduction" | "streetwise" | "subterfuge";
+            skill: "athletics" | "brawl" | "endurance" | "concentration" | "drive" | "firearms" | "larceny" | "melee" | "stealth" | "animalHandling" | "awareness" | "empathy" | "gambling" | "academics" | "bureaucracy" | "criminology" | "demolitions" | "engineering" | "medicine" | "occult" | "politics" | "science" | "survival" | "intimidation" | "meditation" | "artistry" | "etiquette" | "expression" | "leadership" | "negotiation" | "seduction" | "streetwise" | "subterfuge";
             attribute: string;
             description: string;
         };
         necromancy: {
             label: string;
-            skill: "athletics" | "brawl" | "endurance" | "concentration" | "drive" | "firearms" | "larceny" | "melee" | "stealth" | "animalHandling" | "awareness" | "empathy" | "gambling" | "academics" | "bureauracy" | "criminology" | "demolitions" | "engineering" | "medicine" | "occult" | "politics" | "science" | "survival" | "intimidation" | "meditation" | "artistry" | "etiquette" | "expression" | "leadership" | "negotiation" | "seduction" | "streetwise" | "subterfuge";
+            skill: "athletics" | "brawl" | "endurance" | "concentration" | "drive" | "firearms" | "larceny" | "melee" | "stealth" | "animalHandling" | "awareness" | "empathy" | "gambling" | "academics" | "bureaucracy" | "criminology" | "demolitions" | "engineering" | "medicine" | "occult" | "politics" | "science" | "survival" | "intimidation" | "meditation" | "artistry" | "etiquette" | "expression" | "leadership" | "negotiation" | "seduction" | "streetwise" | "subterfuge";
             attribute: string;
             description: string;
         };
         clairvoyance: {
             label: string;
-            skill: "athletics" | "brawl" | "endurance" | "concentration" | "drive" | "firearms" | "larceny" | "melee" | "stealth" | "animalHandling" | "awareness" | "empathy" | "gambling" | "academics" | "bureauracy" | "criminology" | "demolitions" | "engineering" | "medicine" | "occult" | "politics" | "science" | "survival" | "intimidation" | "meditation" | "artistry" | "etiquette" | "expression" | "leadership" | "negotiation" | "seduction" | "streetwise" | "subterfuge";
+            skill: "athletics" | "brawl" | "endurance" | "concentration" | "drive" | "firearms" | "larceny" | "melee" | "stealth" | "animalHandling" | "awareness" | "empathy" | "gambling" | "academics" | "bureaucracy" | "criminology" | "demolitions" | "engineering" | "medicine" | "occult" | "politics" | "science" | "survival" | "intimidation" | "meditation" | "artistry" | "etiquette" | "expression" | "leadership" | "negotiation" | "seduction" | "streetwise" | "subterfuge";
             attribute: string;
             description: string;
         };
         psychokinesis: {
             label: string;
-            skill: "athletics" | "brawl" | "endurance" | "concentration" | "drive" | "firearms" | "larceny" | "melee" | "stealth" | "animalHandling" | "awareness" | "empathy" | "gambling" | "academics" | "bureauracy" | "criminology" | "demolitions" | "engineering" | "medicine" | "occult" | "politics" | "science" | "survival" | "intimidation" | "meditation" | "artistry" | "etiquette" | "expression" | "leadership" | "negotiation" | "seduction" | "streetwise" | "subterfuge";
+            skill: "athletics" | "brawl" | "endurance" | "concentration" | "drive" | "firearms" | "larceny" | "melee" | "stealth" | "animalHandling" | "awareness" | "empathy" | "gambling" | "academics" | "bureaucracy" | "criminology" | "demolitions" | "engineering" | "medicine" | "occult" | "politics" | "science" | "survival" | "intimidation" | "meditation" | "artistry" | "etiquette" | "expression" | "leadership" | "negotiation" | "seduction" | "streetwise" | "subterfuge";
             attribute: string;
             description: string;
         };
         telepathy: {
             label: string;
-            skill: "athletics" | "brawl" | "endurance" | "concentration" | "drive" | "firearms" | "larceny" | "melee" | "stealth" | "animalHandling" | "awareness" | "empathy" | "gambling" | "academics" | "bureauracy" | "criminology" | "demolitions" | "engineering" | "medicine" | "occult" | "politics" | "science" | "survival" | "intimidation" | "meditation" | "artistry" | "etiquette" | "expression" | "leadership" | "negotiation" | "seduction" | "streetwise" | "subterfuge";
+            skill: "athletics" | "brawl" | "endurance" | "concentration" | "drive" | "firearms" | "larceny" | "melee" | "stealth" | "animalHandling" | "awareness" | "empathy" | "gambling" | "academics" | "bureaucracy" | "criminology" | "demolitions" | "engineering" | "medicine" | "occult" | "politics" | "science" | "survival" | "intimidation" | "meditation" | "artistry" | "etiquette" | "expression" | "leadership" | "negotiation" | "seduction" | "streetwise" | "subterfuge";
             attribute: string;
             description: string;
         };

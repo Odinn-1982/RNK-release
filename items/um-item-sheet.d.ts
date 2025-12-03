@@ -3,7 +3,8 @@
  *
  * Sheet for editing items
  */
-export declare class UMItemSheet extends ItemSheet {
+declare const ItemSheetBase: typeof ItemSheet;
+export declare class UMItemSheet extends ItemSheetBase {
     static get defaultOptions(): any;
     /**
      * Return the correct template based on item type
@@ -16,3 +17,4 @@ export declare class UMItemSheet extends ItemSheet {
     private _getWeaponSkills;
     activateListeners(html: JQuery<HTMLElement>): void;
 }
+export {};
