@@ -281,6 +281,19 @@
       "Drone": "Drone",
       "Ghoul": "Ghoul",
       "Lich": "Lich"
+    },
+    
+    "Controls": {
+      "GMHub": "GM Hub"
+    },
+    
+    "Keybindings": {
+      "OpenGMHub": "Open GM Hub",
+      "OpenGMHubHint": "Opens the GM Hub for managing encounters, NPCs, and corruption"
+    },
+    
+    "ContextMenu": {
+      "OpenPCHub": "Open PC Hub"
     }
   }
 }

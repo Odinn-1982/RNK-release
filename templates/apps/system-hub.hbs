@@ -1,0 +1,34 @@
+{{!-- System Hub Base Template (Not directly used - subclasses provide their own templates) --}}
+<div class="system-hub-container">
+  <header class="hub-header" style="border-color: {{config.color}}; background: {{config.gradient}}">
+    <div class="header-icon" style="background: {{config.color}}33;">
+      <i class="fas {{config.icon}}"></i>
+    </div>
+    <div class="header-title">
+      <h2>{{config.name}} Hub</h2>
+      {{#if actor}}
+        <span class="actor-name">{{actor.name}}</span>
+      {{else}}
+        <span class="no-actor"><i class="fas fa-exclamation-circle"></i> No character selected</span>
+      {{/if}}
+    </div>
+    <button type="button" class="hub-close">
+      <i class="fas fa-times"></i>
+    </button>
+  </header>
+
+  <div class="hub-content">
+    {{#if actor}}
+      <div class="hub-body">
+        <p>This is the base system hub template. Specific hubs should override this template.</p>
+      </div>
+    {{else}}
+      <div class="no-actor-content">
+        <div class="no-actor-message">
+          <i class="fas fa-user-slash"></i>
+          <p>Select a token or assign a character to access this hub.</p>
+        </div>
+      </div>
+    {{/if}}
+  </div>
+</div>
